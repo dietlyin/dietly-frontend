@@ -13,6 +13,15 @@
   body {
     @apply bg-brand-dark text-white font-sans overflow-x-hidden;
     background: #050508;
+    /* Layered ambient background that flows across the entire page */
+    background-image:
+      radial-gradient(ellipse 120% 60% at 10% 0%, rgba(0,232,108,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at 90% 20%, rgba(255,107,44,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 80% at 50% 50%, rgba(0,232,108,0.025) 0%, transparent 60%),
+      radial-gradient(ellipse 90% 60% at 20% 80%, rgba(255,107,44,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse 110% 50% at 80% 100%, rgba(0,232,108,0.04) 0%, transparent 50%),
+      linear-gradient(180deg, #050508 0%, #070710 30%, #050508 60%, #08081a 85%, #050508 100%);
+    background-attachment: fixed;
   }
 
   ::selection {
@@ -34,23 +43,25 @@
   /* ─── Glass morphism tiers ─── */
   .glass {
     background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.04);
   }
 
   .glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.035) 0%, rgba(255,255,255,0.012) 100%);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
   }
 
   .glass-strong {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(60px) saturate(200%);
     -webkit-backdrop-filter: blur(60px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
   }
 
   /* ─── Gradient text ─── */
@@ -93,7 +104,7 @@
 
   /* ─── Section padding ─── */
   .section-padding {
-    @apply px-5 sm:px-8 lg:px-12 py-28 sm:py-36 lg:py-44;
+    @apply px-5 sm:px-8 lg:px-16 xl:px-20 py-24 sm:py-32 lg:py-40;
   }
 
   /* ─── Premium shimmer ─── */
@@ -160,8 +171,8 @@
 
   /* ─── Dot grid background ─── */
   .dot-grid {
-    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.025) 0.5px, transparent 0.5px);
+    background-size: 40px 40px;
   }
 
   /* ─── Grain / noise overlay ─── */
@@ -173,17 +184,40 @@
     bottom: -50%;
     width: 200%;
     height: 200%;
-    opacity: 0.015;
+    opacity: 0.012;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 9999;
     animation: grain 0.5s steps(1) infinite;
+    mix-blend-mode: overlay;
   }
 
-  /* ─── Section divider gradient line ─── */
+  /* ─── Section divider — soft ambient glow ─── */
   .section-divider {
-    @apply w-full h-px;
-    background: linear-gradient(90deg, transparent 0%, rgba(0,232,108,0.12) 30%, rgba(255,107,44,0.08) 70%, transparent 100%);
+    @apply w-full h-24 relative;
+    background: transparent;
+  }
+  .section-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,232,108,0.08) 30%, rgba(255,107,44,0.05) 70%, transparent 100%);
+  }
+  .section-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(0,232,108,0.03) 0%, transparent 70%);
+    pointer-events: none;
   }
 
   /* ─── Premium button base ─── */

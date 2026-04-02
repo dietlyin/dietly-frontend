@@ -157,16 +157,16 @@ export default function Hero() {
     <section id="home" className="relative min-h-screen lg:min-h-[110vh] flex flex-col justify-center overflow-hidden scroll-mt-24">
       {/* ── Aurora animated background ── */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[5%] left-[10%] w-[700px] h-[700px] bg-brand-green/[0.08] blur-[180px] animate-morph" />
-        <div className="absolute bottom-[5%] right-[5%] w-[600px] h-[600px] bg-brand-orange/[0.06] blur-[160px] animate-morph" style={{ animationDelay: '-5s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] aurora-bg opacity-60" />
-        <div className="absolute -top-40 right-[20%] w-[400px] h-[400px] bg-brand-green/[0.04] rounded-full blur-[120px] animate-blob" />
-        {/* New: pulsing center ring */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-brand-green/[0.04] animate-breathe" />
+        <div className="absolute top-[5%] left-[10%] w-[800px] h-[800px] bg-brand-green/[0.06] blur-[220px] animate-morph" />
+        <div className="absolute bottom-[5%] right-[5%] w-[700px] h-[700px] bg-brand-orange/[0.04] blur-[200px] animate-morph" style={{ animationDelay: '-5s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] aurora-bg opacity-40" />
+        <div className="absolute -top-40 right-[20%] w-[500px] h-[500px] bg-brand-green/[0.03] rounded-full blur-[160px] animate-blob" />
+        {/* Subtle radial vignette for depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,8,0.4)_70%,rgba(5,5,8,0.8)_100%)]" />
       </motion.div>
 
       {/* ── Dot grid pattern ── */}
-      <div className="absolute inset-0 dot-grid pointer-events-none opacity-40" />
+      <div className="absolute inset-0 dot-grid pointer-events-none opacity-25" />
 
       {/* ── Floating particles ── */}
       <Particles />
@@ -198,7 +198,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -18, 0], rotate: [0, 2, -2, 0] }}
               transition={{ duration: 7 + i, repeat: Infinity, ease: 'easeInOut', delay: card.delay }}
-              className="glass-card rounded-2xl px-5 py-3.5 flex items-center gap-3.5 hover:bg-white/[0.08] hover:scale-110 hover:shadow-glow-green transition-all duration-500 cursor-default group backdrop-blur-xl spotlight-card"
+              className="glass-card rounded-2xl px-5 py-3.5 flex items-center gap-3.5 hover:bg-white/[0.06] hover:scale-110 transition-all duration-500 cursor-default group backdrop-blur-xl spotlight-card shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.06)]"
             >
               <span className="text-2xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">{card.emoji}</span>
               <div>
@@ -260,19 +260,31 @@ export default function Hero() {
         </motion.div>
 
         {/* Headline — word-by-word reveal with 3D flip */}
-        <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.88] mb-6 sm:mb-8">
-          <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
-            <AnimatedWords text="Fuel Your" delay={0.5} />
-          </span>
-          <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
-            <span className="gradient-text-hero">
-              <AnimatedWords text="Fitness" delay={0.7} />
+        <div className="relative">
+          {/* Animated glow backdrop behind headline */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 1.5, ease: 'easeOut' }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[120%] pointer-events-none"
+          >
+            <div className="absolute inset-0 bg-brand-green/[0.07] blur-[120px] rounded-full animate-breathe" />
+            <div className="absolute inset-[20%] bg-brand-green/[0.04] blur-[80px] rounded-full animate-breathe" style={{ animationDelay: '-3s' }} />
+          </motion.div>
+          <h1 className="relative font-display font-bold tracking-[-0.04em] leading-[0.88] mb-6 sm:mb-8">
+            <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
+              <AnimatedWords text="Fuel Your" delay={0.5} />
             </span>
-          </span>
-          <span className="block text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5rem] text-white/70">
-            <AnimatedWords text="Journey" delay={0.9} />
-          </span>
-        </h1>
+            <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
+              <span className="gradient-text-hero">
+                <AnimatedWords text="Fitness" delay={0.7} />
+              </span>
+            </span>
+            <span className="block text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5rem] text-white/70">
+              <AnimatedWords text="Journey" delay={0.9} />
+            </span>
+          </h1>
+        </div>
 
         {/* Subtext with character stagger */}
         <motion.p
@@ -367,7 +379,7 @@ export default function Hero() {
       </motion.div>
 
       {/* ── Bottom gradient fade ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent pointer-events-none" />
 
       {/* ── Scroll indicator with refined animation ── */}
       <motion.div

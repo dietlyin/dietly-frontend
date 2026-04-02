@@ -91,17 +91,12 @@ export default function App() {
       <Navbar />
       <Hero />
 
-      {/* Divider */}
       <div className="section-divider" />
 
       <Stats />
       <HowItWorks />
 
-      <div className="section-divider" />
-
       <Plans />
-
-      <div className="section-divider" />
 
       <FoodMenu />
       <Testimonials />

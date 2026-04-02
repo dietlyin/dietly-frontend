@@ -65,19 +65,14 @@ export default function Stats() {
   });
 
   return (
-    <section className="relative py-28 sm:py-36 overflow-hidden">
+    <section className="relative py-24 sm:py-32 overflow-hidden">
       {/* Rich background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-brand-dark via-brand-surface/40 to-brand-dark" />
-      <div className="absolute inset-0 bg-mesh-gradient opacity-40" />
-      <div className="absolute inset-0 dot-grid opacity-30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-surface/20 to-transparent" />
+      <div className="absolute inset-0 dot-grid opacity-15" />
 
       {/* Ambient glows */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-green/[0.04] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[300px] h-[300px] bg-brand-orange/[0.03] rounded-full blur-[120px] pointer-events-none" />
-
-      {/* Top/bottom lines */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gradient-to-r from-transparent via-brand-green/15 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gradient-to-r from-transparent via-brand-green/8 to-transparent" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-brand-green/[0.03] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-orange/[0.02] rounded-full blur-[150px] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8" ref={ref}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
