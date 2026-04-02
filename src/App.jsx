@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import Plans from './components/Plans';
-import FoodMenu from './components/FoodMenu';
-import Stats from './components/Stats';
-import Testimonials from './components/Testimonials';
-import GymPartnership from './components/GymPartnership';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
-import FloatingCTA from './components/FloatingCTA';
+
+const Stats = lazy(() => import('./components/Stats'));
+const HowItWorks = lazy(() => import('./components/HowItWorks'));
+const Plans = lazy(() => import('./components/Plans'));
+const FoodMenu = lazy(() => import('./components/FoodMenu'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const GymPartnership = lazy(() => import('./components/GymPartnership'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const Footer = lazy(() => import('./components/Footer'));
+const FloatingCTA = lazy(() => import('./components/FloatingCTA'));
 
 /* ── Cursor Glow: follows mouse for ambient interactivity ── */
 function CursorGlow() {
@@ -91,22 +92,24 @@ export default function App() {
       <Navbar />
       <Hero />
 
-      <div className="section-divider" />
+      <Suspense fallback={null}>
+        <div className="section-divider" />
 
-      <Stats />
-      <HowItWorks />
+        <Stats />
+        <HowItWorks />
 
-      <Plans />
+        <Plans />
 
-      <FoodMenu />
-      <Testimonials />
+        <FoodMenu />
+        <Testimonials />
 
-      <div className="section-divider" />
+        <div className="section-divider" />
 
-      <GymPartnership />
-      <FAQ />
-      <Footer />
-      <FloatingCTA />
+        <GymPartnership />
+        <FAQ />
+        <Footer />
+        <FloatingCTA />
+      </Suspense>
     </div>
     </AuthProvider>
   );

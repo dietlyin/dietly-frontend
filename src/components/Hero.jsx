@@ -31,7 +31,7 @@ function AnimatedWords({ text, className, delay = 0 }) {
 /* ── Floating particle system with varied behaviors ── */
 function Particles() {
   const particles = useRef(
-    Array.from({ length: 50 }, (_, i) => ({
+    Array.from({ length: 18 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
