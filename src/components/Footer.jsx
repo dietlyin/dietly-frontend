@@ -60,7 +60,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-1 mb-6">
-              <img src={logo} alt="Dietly" className="h-8 w-auto object-contain" />
+              <img src={logo} alt="Dietly" className="h-8 w-auto object-contain brightness-0 invert" />
             </div>
             <p className="text-sm text-white/25 leading-relaxed mb-7 max-w-xs font-light">
               Supporting your fitness goals daily with chef-crafted, macro-balanced

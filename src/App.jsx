@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <AuthProvider>
-    <div className="relative min-h-screen bg-brand-dark text-white">
+    <div className="relative min-h-screen bg-brand-dark text-white overflow-x-hidden">
       {/* Page loader */}
       <AnimatePresence>
         {!loaded && <PageLoader onComplete={() => setLoaded(true)} />}

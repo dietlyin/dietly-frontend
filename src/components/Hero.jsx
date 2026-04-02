@@ -154,7 +154,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-[110vh] flex flex-col justify-center overflow-hidden">
+    <section id="home" className="relative min-h-screen lg:min-h-[110vh] flex flex-col justify-center overflow-hidden scroll-mt-24">
       {/* ── Aurora animated background ── */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[5%] left-[10%] w-[700px] h-[700px] bg-brand-green/[0.08] blur-[180px] animate-morph" />
@@ -253,23 +253,23 @@ export default function Hero() {
             <img
               src={logo}
               alt="Dietly"
-              className="h-14 sm:h-16 md:h-20 w-auto object-contain group-hover:scale-110 transition-transform duration-700"
+              className="h-14 sm:h-16 md:h-20 w-auto object-contain group-hover:scale-110 transition-transform duration-700 brightness-0 invert"
             />
             <div className="absolute inset-0 bg-brand-green/10 blur-[40px] rounded-full scale-150 -z-10 animate-breathe" />
           </div>
         </motion.div>
 
         {/* Headline — word-by-word reveal with 3D flip */}
-        <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.88] mb-8">
-          <span className="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[8rem]">
+        <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.88] mb-6 sm:mb-8">
+          <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
             <AnimatedWords text="Fuel Your" delay={0.5} />
           </span>
-          <span className="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[8rem]">
+          <span className="block text-[2.25rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem]">
             <span className="gradient-text-hero">
               <AnimatedWords text="Fitness" delay={0.7} />
             </span>
           </span>
-          <span className="block text-[2.25rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[5.5rem] text-white/70">
+          <span className="block text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5rem] text-white/70">
             <AnimatedWords text="Journey" delay={0.9} />
           </span>
         </h1>
@@ -291,16 +291,16 @@ export default function Hero() {
           initial={{ opacity: 0, y: 35, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ delay: 1.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-20"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-12 sm:mb-20"
         >
-          <a href="#plans" className="btn-primary text-base sm:text-lg group px-10 py-5 hover:shadow-glow-green-lg">
+          <a href="#plans" className="btn-primary text-base sm:text-lg group w-full sm:w-auto px-10 py-5 hover:shadow-glow-green-lg">
             <span>Start Your Plan</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-400" />
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             <div className="absolute inset-0 rounded-2xl bg-brand-green/20 animate-pulse-ring -z-10" />
           </a>
 
-          <a href="#menu" className="btn-ghost text-base sm:text-lg group px-10 py-5">
+          <a href="#menu" className="btn-ghost text-base sm:text-lg group w-full sm:w-auto px-10 py-5">
             <Play className="w-4 h-4 text-brand-green group-hover:scale-125 group-hover:text-brand-green-light transition-all duration-400" />
             <span>Explore Menu</span>
           </a>
@@ -311,7 +311,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-10 sm:gap-16"
+          className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-16"
         >
           {[
             { value: '10,000+', label: 'Meals Delivered' },

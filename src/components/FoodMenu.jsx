@@ -59,7 +59,7 @@ export default function FoodMenu() {
   });
 
   return (
-    <section id="menu" className="relative section-padding overflow-hidden">
+    <section id="menu" className="relative section-padding overflow-hidden scroll-mt-24">
       {/* Background */}
       <div className="absolute inset-0 dot-grid opacity-15" />
       <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-brand-orange/[0.025] rounded-full blur-[180px] pointer-events-none" />

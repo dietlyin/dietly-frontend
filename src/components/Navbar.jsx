@@ -47,7 +47,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between h-14 sm:h-16">
               {/* Logo */}
               <a href="#home" className="flex items-center gap-1 group relative">
-                <img src={logo} alt="Dietly" className="h-8 sm:h-9 w-auto object-contain group-hover:scale-110 transition-transform duration-500" />
+                <img src={logo} alt="Dietly" className="h-8 sm:h-9 w-auto object-contain group-hover:scale-110 transition-transform duration-500 brightness-0 invert" />
                 <div className="absolute -inset-3 bg-brand-green/5 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
               </a>
 

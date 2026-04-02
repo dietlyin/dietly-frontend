@@ -41,7 +41,7 @@ export default function HowItWorks() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="relative section-padding overflow-hidden">
+    <section id="how-it-works" className="relative section-padding overflow-hidden scroll-mt-24">
       {/* Background */}
       <div className="absolute inset-0 dot-grid opacity-20" />
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-brand-green/[0.03] rounded-full blur-[160px] pointer-events-none animate-blob" />

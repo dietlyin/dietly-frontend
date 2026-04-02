@@ -90,7 +90,7 @@ export default function FAQ() {
   }));
 
   return (
-    <section id="faq" className="relative section-padding overflow-hidden">
+    <section id="faq" className="relative section-padding overflow-hidden scroll-mt-24">
       <div className="absolute inset-0 dot-grid opacity-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-green/[0.02] rounded-full blur-[180px] pointer-events-none" />
 

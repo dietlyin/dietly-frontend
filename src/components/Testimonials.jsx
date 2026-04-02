@@ -38,7 +38,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="relative section-padding overflow-hidden">
+    <section id="testimonials" className="relative section-padding overflow-hidden scroll-mt-24">
       {/* Background */}
       <div className="absolute inset-0 dot-grid opacity-15" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-green/[0.025] rounded-full blur-[200px] pointer-events-none" />

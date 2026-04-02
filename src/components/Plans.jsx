@@ -111,7 +111,7 @@ export default function Plans() {
   }));
 
   return (
-    <section id="plans" className="relative section-padding overflow-hidden">
+    <section id="plans" className="relative section-padding overflow-hidden scroll-mt-24">
       {/* Background */}
       <div className="absolute inset-0 dot-grid opacity-20" />
       <div className="absolute top-0 left-1/3 w-[700px] h-[700px] bg-brand-green/[0.04] rounded-full blur-[200px] pointer-events-none animate-morph" />
