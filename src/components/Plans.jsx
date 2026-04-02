@@ -217,10 +217,11 @@ export default function Plans() {
 
   return (
     <section id="plans" className="relative section-padding overflow-hidden scroll-mt-24">
-      {/* Background */}
-      <div className="absolute inset-0 dot-grid opacity-15" />
-      <div className="absolute top-0 left-1/3 w-[700px] h-[700px] bg-brand-green/[0.03] rounded-full blur-[200px] pointer-events-none animate-morph" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-brand-orange/[0.02] rounded-full blur-[180px] pointer-events-none" />
+      {/* Background — radial stage-light effect, no dot-grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_40%,rgba(0,232,108,0.04)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_50%_80%,rgba(255,107,44,0.025)_0%,transparent_60%)]" />
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-brand-dark to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-brand-dark to-transparent pointer-events-none" />
 
       <div className="relative max-w-5xl mx-auto" ref={ref}>
         {/* Header */}

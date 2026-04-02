@@ -66,13 +66,13 @@ export default function Stats() {
 
   return (
     <section className="relative py-24 sm:py-32 overflow-hidden">
-      {/* Rich background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-surface/20 to-transparent" />
-      <div className="absolute inset-0 dot-grid opacity-15" />
+      {/* Subtle top/bottom gradient bleed — no dot-grid for clean contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-charcoal/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-brand-dark to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-brand-dark to-transparent pointer-events-none" />
 
-      {/* Ambient glows */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-brand-green/[0.03] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-brand-orange/[0.02] rounded-full blur-[150px] pointer-events-none" />
+      {/* Single centered glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-brand-green/[0.025] rounded-full blur-[200px] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8" ref={ref}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">

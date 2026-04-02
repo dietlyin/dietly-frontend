@@ -166,7 +166,7 @@ export default function Hero() {
       </motion.div>
 
       {/* ── Dot grid pattern ── */}
-      <div className="absolute inset-0 dot-grid pointer-events-none opacity-25" />
+      <div className="absolute inset-0 dot-grid pointer-events-none opacity-[0.08]" />
 
       {/* ── Floating particles ── */}
       <Particles />
@@ -379,7 +379,7 @@ export default function Hero() {
       </motion.div>
 
       {/* ── Bottom gradient fade ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent pointer-events-none" />
 
       {/* ── Scroll indicator with refined animation ── */}
       <motion.div

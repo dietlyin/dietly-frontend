@@ -13,10 +13,11 @@ export default function GymPartnership() {
 
   return (
     <section id="gym-partnership" className="relative section-padding overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-mesh-gradient opacity-30" />
-      <div className="absolute inset-0 dot-grid opacity-15" />
-      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-brand-orange/[0.03] rounded-full blur-[180px] pointer-events-none" />
+      {/* Background — warm mesh-gradient with edge fades */}
+      <div className="absolute inset-0 bg-mesh-gradient opacity-25" />
+      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-brand-orange/[0.025] rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-brand-dark to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-brand-dark to-transparent pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto" ref={ref}>
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">

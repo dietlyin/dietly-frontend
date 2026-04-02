@@ -60,10 +60,10 @@ export default function FoodMenu() {
 
   return (
     <section id="menu" className="relative section-padding overflow-hidden scroll-mt-24">
-      {/* Background */}
-      <div className="absolute inset-0 dot-grid opacity-15" />
-      <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-brand-orange/[0.025] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-green/[0.025] rounded-full blur-[150px] pointer-events-none" />
+      {/* Background — asymmetric dual-tone, subtle dot-grid */}
+      <div className="absolute inset-0 dot-grid opacity-[0.04]" />
+      <div className="absolute top-[20%] right-[-10%] w-[500px] h-[800px] bg-gradient-to-b from-brand-orange/[0.03] via-brand-orange/[0.015] to-transparent rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute bottom-[10%] left-[-5%] w-[400px] h-[600px] bg-gradient-to-t from-brand-green/[0.025] to-transparent rounded-full blur-[180px] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto" ref={ref}>
         {/* Header */}

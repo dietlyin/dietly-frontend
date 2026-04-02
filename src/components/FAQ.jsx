@@ -67,7 +67,7 @@ function FAQItem({ faq, isOpen, onToggle, index, inView }) {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
-              <p className="mt-5 ml-9 text-sm sm:text-base text-white/30 leading-relaxed pr-14 font-light">
+              <p className="mt-5 ml-9 text-sm sm:text-base text-white/30 leading-relaxed pr-4 sm:pr-14 font-light">
                 {faq.a}
               </p>
             </motion.div>
@@ -91,8 +91,8 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="relative section-padding overflow-hidden scroll-mt-24">
-      <div className="absolute inset-0 dot-grid opacity-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-green/[0.02] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_30%,rgba(0,232,108,0.025)_0%,transparent_60%)]" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-brand-dark/60 to-transparent pointer-events-none" />
 
       <div className="relative max-w-3xl mx-auto" ref={ref}>
         {/* Header */}

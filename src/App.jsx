@@ -93,18 +93,11 @@ export default function App() {
       <Hero />
 
       <Suspense fallback={null}>
-        <div className="section-divider" />
-
         <Stats />
         <HowItWorks />
-
         <Plans />
-
         <FoodMenu />
         <Testimonials />
-
-        <div className="section-divider" />
-
         <GymPartnership />
         <FAQ />
         <Footer />

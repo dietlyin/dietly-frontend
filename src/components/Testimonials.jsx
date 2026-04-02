@@ -25,9 +25,10 @@ export default function Testimonials() {
   }, [testimonials.length]);
 
   useEffect(() => {
+    if (!inView) return;
     const timer = setInterval(() => go(1), 6000);
     return () => clearInterval(timer);
-  }, [go]);
+  }, [go, inView]);
 
   const t = testimonials[current];
 
@@ -39,9 +40,10 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="relative section-padding overflow-hidden scroll-mt-24">
-      {/* Background */}
-      <div className="absolute inset-0 dot-grid opacity-15" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-green/[0.025] rounded-full blur-[200px] pointer-events-none" />
+      {/* Background — centered spotlight, no dot-grid for clean focus */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse,rgba(0,232,108,0.03)_0%,transparent_55%)] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-brand-dark/80 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-brand-dark/80 to-transparent pointer-events-none" />
 
       <div className="relative max-w-4xl mx-auto" ref={ref}>
         {/* Header */}

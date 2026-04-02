@@ -42,10 +42,10 @@ export default function HowItWorks() {
 
   return (
     <section id="how-it-works" className="relative section-padding overflow-hidden scroll-mt-24">
-      {/* Background */}
-      <div className="absolute inset-0 dot-grid opacity-10" />
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brand-green/[0.025] rounded-full blur-[200px] pointer-events-none animate-blob" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-orange/[0.02] rounded-full blur-[180px] pointer-events-none animate-blob-delayed" />
+      {/* Background — soft dot-grid with diagonal glow sweep */}
+      <div className="absolute inset-0 dot-grid opacity-[0.06]" />
+      <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-gradient-to-bl from-brand-green/[0.03] to-transparent rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[400px] bg-gradient-to-tr from-brand-orange/[0.02] to-transparent rounded-full blur-[180px] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto" ref={ref}>
         {/* Section header */}
