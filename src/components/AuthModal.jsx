@@ -30,6 +30,8 @@ export default function AuthModal({ isOpen, onClose }) {
 
   const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
+  const inputClass = 'w-full pl-11 pr-4 py-3 rounded-xl bg-neutral-900 border border-white/[0.08] text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-brand-green/40 transition-colors';
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -40,109 +42,64 @@ export default function AuthModal({ isOpen, onClose }) {
           className="fixed inset-0 z-[60] flex items-center justify-center px-4"
           onClick={onClose}
         >
-          <div className="absolute inset-0 bg-brand-dark/80 backdrop-blur-xl" />
+          <div className="absolute inset-0 bg-neutral-950/80 backdrop-blur-sm" />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 40, filter: 'blur(12px)' }}
-            animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 0.85, y: 40, filter: 'blur(12px)' }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-md glass-strong rounded-3xl p-8 sm:p-10 border border-white/[0.06] spotlight-card"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-full max-w-md card p-8 sm:p-10"
             onClick={(e) => e.stopPropagation()}
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
-              e.currentTarget.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
-            }}
           >
-            {/* Close */}
-            <button onClick={onClose} className="absolute top-5 right-5 p-2 rounded-xl hover:bg-white/[0.05] transition-colors">
-              <X className="w-5 h-5 text-white/30" />
+            <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <X className="w-5 h-5 text-neutral-500" />
             </button>
 
-            {/* Header */}
             <h2 className="font-display font-bold text-2xl mb-2">
               {mode === 'login' ? 'Welcome Back' : 'Join Dietly'}
             </h2>
-            <p className="text-sm text-white/30 mb-8">
+            <p className="text-sm text-neutral-500 mb-7">
               {mode === 'login' ? 'Sign in to manage your subscription' : 'Create your account to get started'}
             </p>
 
-            {/* Error */}
             {error && (
               <div className="mb-5 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               {mode === 'register' && (
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    value={form.name}
-                    onChange={set('name')}
-                    required
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-sm text-white placeholder-white/20 focus:outline-none focus:border-brand-green/30 transition-colors"
-                  />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  <input type="text" placeholder="Full Name" value={form.name} onChange={set('name')} required className={inputClass} />
                 </div>
               )}
-
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={form.email}
-                  onChange={set('email')}
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-sm text-white placeholder-white/20 focus:outline-none focus:border-brand-green/30 transition-colors"
-                />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input type="email" placeholder="Email Address" value={form.email} onChange={set('email')} required className={inputClass} />
               </div>
-
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={set('password')}
-                  required
-                  minLength={6}
-                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-sm text-white placeholder-white/20 focus:outline-none focus:border-brand-green/30 transition-colors"
-                />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                <input type="password" placeholder="Password" value={form.password} onChange={set('password')} required minLength={6} className={inputClass} />
               </div>
-
               {mode === 'register' && (
                 <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-                  <input
-                    type="tel"
-                    placeholder="Phone (optional)"
-                    value={form.phone}
-                    onChange={set('phone')}
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-sm text-white placeholder-white/20 focus:outline-none focus:border-brand-green/30 transition-colors"
-                  />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  <input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={set('phone')} className={inputClass} />
                 </div>
               )}
-
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-green to-brand-green-light text-brand-dark font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-glow-green hover:scale-[1.02] active:scale-[0.98] transition-all duration-500 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-brand-green text-neutral-950 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-brand-green-light transition-colors disabled:opacity-50"
               >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  mode === 'login' ? 'Sign In' : 'Create Account'
-                )}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === 'login' ? 'Sign In' : 'Create Account'}
               </button>
             </form>
 
-            {/* Toggle */}
-            <p className="text-center text-sm text-white/25 mt-6">
+            <p className="text-center text-sm text-neutral-500 mt-6">
               {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button
                 onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}

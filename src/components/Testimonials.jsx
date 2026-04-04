@@ -6,11 +6,11 @@ import useAPI from '../hooks/useAPI';
 import { testimonialsAPI } from '../services/api';
 
 const fallbackTestimonials = [
-  { name: 'Arjun Mehta', role: 'Fitness Enthusiast', text: 'Dietly completely changed how I eat. Lost 8kg in 3 months while building lean muscle. The food is genuinely delicious — not your typical "diet food."', rating: 5, avatar: '🧑‍💻' },
-  { name: 'Priya Sharma', role: 'Yoga Instructor', text: 'As a yoga instructor, nutrition is everything. Dietly meals are clean, balanced, and show up on time every single day. I recommend it to all my students.', rating: 5, avatar: '👩‍🏫' },
-  { name: 'Rohit Kapoor', role: 'Bodybuilder', text: "The Premium plan is insane. Full day meals that hit my macros perfectly. My coach couldn't believe the progress. Worth every rupee.", rating: 5, avatar: '💪' },
-  { name: 'Sneha Iyer', role: 'Marathon Runner', text: "I used to spend hours meal prepping. Now I just open the Dietly box and eat. It's freed up so much of my time and my performance has improved.", rating: 5, avatar: '🏃‍♀️' },
-  { name: 'Vikram Singh', role: 'CrossFit Athlete', text: "The variety is what keeps me hooked. Different meals every day, all hitting 40g+ protein. It's like having a personal chef who understands fitness.", rating: 5, avatar: '🏋️' },
+  { name: 'Arjun Mehta', role: 'Fitness Enthusiast', text: 'Dietly completely changed how I eat. Lost 8kg in 3 months while building lean muscle. The food is genuinely delicious.', rating: 5 },
+  { name: 'Priya Sharma', role: 'Yoga Instructor', text: 'As a yoga instructor, nutrition is everything. Dietly meals are clean, balanced, and show up on time every single day.', rating: 5 },
+  { name: 'Rohit Kapoor', role: 'Bodybuilder', text: 'The Premium plan is excellent. Full day meals that hit my macros perfectly. My coach couldn\'t believe the progress.', rating: 5 },
+  { name: 'Sneha Iyer', role: 'Marathon Runner', text: 'I used to spend hours meal prepping. Now I just open the box and eat. My performance has improved significantly.', rating: 5 },
+  { name: 'Vikram Singh', role: 'CrossFit Athlete', text: 'The variety is what keeps me hooked. Different meals every day, all hitting 40g+ protein. Like having a personal chef.', rating: 5 },
 ];
 
 export default function Testimonials() {
@@ -26,120 +26,84 @@ export default function Testimonials() {
 
   useEffect(() => {
     if (!inView) return;
-    const timer = setInterval(() => go(1), 6000);
+    const timer = setInterval(() => go(1), 5000);
     return () => clearInterval(timer);
   }, [go, inView]);
 
   const t = testimonials[current];
 
-  const slideVariants = {
-    enter: (d) => ({ x: d > 0 ? 120 : -120, opacity: 0, scale: 0.9, filter: 'blur(12px)', rotateY: d > 0 ? 5 : -5 }),
-    center: { x: 0, opacity: 1, scale: 1, filter: 'blur(0px)', rotateY: 0 },
-    exit: (d) => ({ x: d > 0 ? -120 : 120, opacity: 0, scale: 0.9, filter: 'blur(12px)', rotateY: d > 0 ? -5 : 5 }),
+  const variants = {
+    enter: (d) => ({ x: d > 0 ? 60 : -60, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d) => ({ x: d > 0 ? -60 : 60, opacity: 0 }),
   };
 
   return (
-    <section id="testimonials" className="relative section-padding overflow-hidden scroll-mt-24">
-      {/* Background — centered spotlight, no dot-grid for clean focus */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse,rgba(0,232,108,0.03)_0%,transparent_55%)] pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-brand-dark/80 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-brand-dark/80 to-transparent pointer-events-none" />
-
-      <div className="relative max-w-4xl mx-auto" ref={ref}>
+    <section id="testimonials" className="section-spacing overflow-hidden scroll-mt-20">
+      <div className="section-container" ref={ref}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }}
-          animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16 sm:mb-18"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14"
         >
-          <span className="badge-pill text-brand-green mb-6 inline-flex">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-            Testimonials
-          </span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-[3.5rem] tracking-tight mb-5 leading-[1.1]">
-            Loved by <span className="gradient-text">Thousands</span>
+          <span className="badge mb-5 inline-flex">Testimonials</span>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4">
+            Loved by <span className="text-brand-green">Thousands</span>
           </h2>
-          <p className="text-white/30 max-w-lg mx-auto text-base sm:text-lg font-light">
+          <p className="text-neutral-400 max-w-lg mx-auto text-base sm:text-lg">
             Real stories from real people crushing their fitness goals.
           </p>
         </motion.div>
 
         {/* Testimonial card */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="relative max-w-2xl mx-auto"
         >
-          <div className="relative glass-card rounded-[2rem] p-8 sm:p-12 lg:p-16 text-center overflow-hidden neon-border-green spotlight-card"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              e.currentTarget.style.setProperty('--mouse-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
-              e.currentTarget.style.setProperty('--mouse-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
-            }}
-          >
-            {/* Background quotes */}
-            <Quote className="absolute top-8 left-8 w-24 h-24 text-white/[0.015]" />
-            <Quote className="absolute bottom-8 right-8 w-20 h-20 text-white/[0.015] rotate-180" />
-
-            {/* Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-brand-green/[0.03] rounded-full blur-[100px] pointer-events-none" />
+          <div className="card p-8 sm:p-12 text-center relative overflow-hidden">
+            {/* Decorative quote */}
+            <Quote className="absolute top-6 left-6 w-16 h-16 text-white/[0.03]" />
 
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={current}
                 custom={direction}
-                variants={slideVariants}
+                variants={variants}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="relative"
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                {/* Avatar */}
-                <motion.div
-                  initial={{ scale: 0.7, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative inline-flex items-center justify-center w-18 h-18 rounded-2xl glass-strong text-4xl mb-6 group hover:scale-110 transition-transform duration-500"
-                >
-                  {t.avatar}
-                  <div className="absolute -inset-1 rounded-2xl bg-brand-green/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </motion.div>
-
-                {/* Stars with stagger */}
-                <div className="flex items-center justify-center gap-1.5 mb-7">
+                {/* Stars */}
+                <div className="flex items-center justify-center gap-1 mb-6">
                   {Array.from({ length: t.rating }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0, rotate: -30 }}
-                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                      transition={{ delay: 0.15 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    </motion.div>
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
 
-                {/* Quote */}
-                <p className="text-base sm:text-lg md:text-xl text-white/50 leading-relaxed mb-9 max-w-2xl mx-auto font-light">
+                {/* Quote text */}
+                <p className="text-base sm:text-lg text-neutral-300 leading-relaxed mb-8 max-w-xl mx-auto">
                   &ldquo;{t.text}&rdquo;
                 </p>
 
                 {/* Author */}
-                <div className="font-display font-bold text-lg text-white">{t.name}</div>
-                <div className="text-sm text-white/25 mt-1">{t.role}</div>
+                <div className="font-display font-semibold text-white">{t.name}</div>
+                <div className="text-sm text-neutral-500 mt-1">{t.role}</div>
               </motion.div>
             </AnimatePresence>
 
             {/* Navigation */}
-            <div className="flex items-center justify-center gap-6 mt-12">
+            <div className="flex items-center justify-center gap-4 mt-10">
               <button
                 onClick={() => go(-1)}
-                className="p-3 rounded-xl glass hover:bg-white/[0.06] hover:scale-110 active:scale-90 transition-all duration-300 hover:shadow-premium"
+                className="p-2 rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 transition-all"
                 aria-label="Previous testimonial"
               >
-                <ChevronLeft className="w-5 h-5 text-white/35 hover:text-white/60 transition-colors" />
+                <ChevronLeft className="w-4 h-4" />
               </button>
 
               <div className="flex items-center gap-2">
@@ -147,32 +111,20 @@ export default function Testimonials() {
                   <button
                     key={i}
                     onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-                    className="relative h-1.5 rounded-full transition-all duration-600 overflow-hidden"
-                    style={{ width: i === current ? 36 : 6 }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      i === current ? 'bg-brand-green w-6' : 'bg-white/15 hover:bg-white/25'
+                    }`}
                     aria-label={`Go to testimonial ${i + 1}`}
-                  >
-                    <div className={`absolute inset-0 rounded-full transition-all duration-600 ${
-                      i === current
-                        ? 'bg-gradient-to-r from-brand-green to-brand-green-light shadow-glow-green'
-                        : 'bg-white/10 hover:bg-white/25'
-                    }`} />
-                    {i === current && (
-                      <motion.div
-                        layoutId="testimonialDot"
-                        className="absolute inset-0 bg-gradient-to-r from-brand-green to-brand-green-light rounded-full"
-                        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                      />
-                    )}
-                  </button>
+                  />
                 ))}
               </div>
 
               <button
                 onClick={() => go(1)}
-                className="p-3 rounded-xl glass hover:bg-white/[0.06] hover:scale-110 active:scale-90 transition-all duration-300 hover:shadow-premium"
+                className="p-2 rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 transition-all"
                 aria-label="Next testimonial"
               >
-                <ChevronRight className="w-5 h-5 text-white/35 hover:text-white/60 transition-colors" />
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
