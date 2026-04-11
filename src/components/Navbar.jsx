@@ -7,6 +7,7 @@ import AuthModal from './AuthModal';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
+  { label: 'Menu', href: '#menu' },
   { label: 'Plans', href: '#plans' },
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'Testimonials', href: '#testimonials' },
@@ -102,7 +103,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 lg:hidden bg-neutral-950"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
+            <div className="flex flex-col items-center justify-center h-full gap-6 px-6">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
@@ -113,13 +114,29 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#plans"
-                onClick={() => setMobileOpen(false)}
-                className="mt-4 btn-primary text-base px-8 py-3.5"
-              >
-                Get Started
-              </a>
+
+              {user ? (
+                <div className="flex flex-col items-center gap-3 mt-4">
+                  <span className="flex items-center gap-2 text-sm text-neutral-400">
+                    <UserCircle className="w-5 h-5 text-brand-green" />
+                    {user.name?.split(' ')[0]}
+                  </span>
+                  <button
+                    onClick={() => { logout(); setMobileOpen(false); }}
+                    className="flex items-center gap-2 px-6 py-3 text-sm rounded-xl border border-white/10 text-neutral-400 hover:text-white transition-all"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => { setAuthOpen(true); setMobileOpen(false); }}
+                  className="mt-4 btn-primary text-base px-8 py-3.5"
+                >
+                  Get Started
+                </button>
+              )}
             </div>
           </motion.div>
         )}

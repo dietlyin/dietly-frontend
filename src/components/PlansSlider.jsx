@@ -5,6 +5,12 @@ import { Check, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import useAPI from '../hooks/useAPI';
 import { plansAPI } from '../services/api';
 
+import imgBasic from '../assets/dietly/banana shake.jpg';
+import imgStandard from '../assets/dietly/masala matki sprouts.jpg';
+import imgPremium from '../assets/dietly/chocolate banana shake.jpg';
+
+const PLAN_IMAGES = [imgBasic, imgStandard, imgPremium];
+
 const fallbackPlans = [
   {
     name: 'Basic',
@@ -63,10 +69,13 @@ export default function PlansSlider() {
     price: typeof p.price === 'number' ? p.price.toLocaleString('en-IN') : p.price,
   }));
 
-  const goTo = useCallback((idx) => {
-    setDirection(idx > active ? 1 : -1);
-    setActive(idx);
-  }, [active]);
+  const goTo = useCallback(
+    (idx) => {
+      setDirection(idx > active ? 1 : -1);
+      setActive(idx);
+    },
+    [active],
+  );
 
   const next = useCallback(() => {
     setDirection(1);
@@ -78,7 +87,6 @@ export default function PlansSlider() {
     setActive((prev) => (prev - 1 + plans.length) % plans.length);
   }, [plans.length]);
 
-  // Auto-rotate every 4 seconds
   useEffect(() => {
     if (!inView) return;
     const timer = setInterval(next, 4000);
@@ -97,46 +105,46 @@ export default function PlansSlider() {
   return (
     <section id="plans" className="section-spacing overflow-hidden scroll-mt-20">
       <div className="section-container" ref={ref}>
-        {/* Header */}
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="text-center mb-10 sm:mb-14"
         >
           <span className="badge mb-5 inline-flex">Pricing</span>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4">
             Choose Your <span className="text-brand-green">Plan</span>
           </h2>
-          <p className="text-neutral-400 max-w-lg mx-auto text-base sm:text-lg">
+          <p className="text-neutral-400 max-w-lg mx-auto text-sm sm:text-lg">
             Transparent pricing. No hidden fees. Cancel anytime.
           </p>
         </motion.div>
 
-        {/* Rotating card */}
+        {/* Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.15 }}
           className="relative max-w-md mx-auto"
         >
-          {/* Navigation arrows */}
+          {/* Arrows */}
           <button
             onClick={prev}
-            className="absolute left-0 sm:-left-14 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all"
+            className="absolute -left-2 sm:-left-14 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all"
             aria-label="Previous plan"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute right-0 sm:-right-14 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all"
+            className="absolute -right-2 sm:-right-14 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all"
             aria-label="Next plan"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
-          <div className="min-h-[480px] sm:min-h-[520px] relative mx-8 sm:mx-0">
+          <div className="min-h-[580px] sm:min-h-[640px] relative mx-6 sm:mx-0">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={active}
@@ -149,62 +157,73 @@ export default function PlansSlider() {
                 className="absolute inset-0"
               >
                 <div
-                  className={`card h-full p-8 sm:p-10 ${
+                  className={`card h-full overflow-hidden ${
                     plan.popular ? 'border-brand-green/30' : ''
                   }`}
                 >
-                  {/* Popular badge */}
-                  {plan.popular && (
-                    <div className="mb-6">
-                      <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-green text-neutral-950">
-                        MOST POPULAR
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Plan name */}
-                  <h3 className="font-display font-bold text-2xl mb-1">{plan.name}</h3>
-                  <p className="text-sm text-neutral-500 mb-6">{plan.description}</p>
-
-                  {/* Price */}
-                  <div className="flex items-baseline gap-1 mb-8">
-                    <span className="text-neutral-500">₹</span>
-                    <span className="font-display font-bold text-5xl tracking-tight">{plan.price}</span>
-                    <span className="text-neutral-500">{plan.period}</span>
+                  {/* Plan image */}
+                  <div className="h-32 sm:h-40 overflow-hidden">
+                    <img
+                      src={PLAN_IMAGES[active] || PLAN_IMAGES[0]}
+                      alt={plan.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
 
-                  <div className="h-px bg-white/[0.06] mb-6" />
+                  <div className="p-6 sm:p-8 md:p-10">
+                    {plan.popular && (
+                      <div className="mb-4 sm:mb-6">
+                        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-green text-neutral-950">
+                          MOST POPULAR
+                        </span>
+                      </div>
+                    )}
 
-                  {/* Features */}
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-sm">
-                        <div className="mt-0.5 w-5 h-5 rounded-md bg-brand-green/10 flex items-center justify-center shrink-0">
-                          <Check className="w-3 h-3 text-brand-green" />
-                        </div>
-                        <span className="text-neutral-400">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <h3 className="font-display font-bold text-xl sm:text-2xl mb-1">
+                      {plan.name}
+                    </h3>
+                    <p className="text-sm text-neutral-500 mb-4 sm:mb-6">{plan.description}</p>
 
-                  {/* CTA */}
-                  <button
-                    className={`w-full py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 ${
-                      plan.popular
-                        ? 'bg-brand-green text-neutral-950 hover:bg-brand-green-light'
-                        : 'border border-white/10 text-neutral-300 hover:bg-white/5 hover:border-white/20'
-                    }`}
-                  >
-                    Get Started
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <div className="flex items-baseline gap-1 mb-6 sm:mb-8">
+                      <span className="text-neutral-500">₹</span>
+                      <span className="font-display font-bold text-4xl sm:text-5xl tracking-tight">
+                        {plan.price}
+                      </span>
+                      <span className="text-neutral-500">{plan.period}</span>
+                    </div>
+
+                    <div className="h-px bg-white/[0.06] mb-5 sm:mb-6" />
+
+                    <ul className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-3 text-sm">
+                          <div className="mt-0.5 w-5 h-5 rounded-md bg-brand-green/10 flex items-center justify-center shrink-0">
+                            <Check className="w-3 h-3 text-brand-green" />
+                          </div>
+                          <span className="text-neutral-400">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button
+                      className={`w-full py-3 sm:py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 ${
+                        plan.popular
+                          ? 'bg-brand-green text-neutral-950 hover:bg-brand-green-light'
+                          : 'border border-white/10 text-neutral-300 hover:bg-white/5 hover:border-white/20'
+                      }`}
+                    >
+                      Get Started
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Dot indicators */}
-          <div className="flex items-center justify-center gap-3 mt-8">
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-3 mt-6 sm:mt-8">
             {plans.map((_, i) => (
               <button
                 key={i}
