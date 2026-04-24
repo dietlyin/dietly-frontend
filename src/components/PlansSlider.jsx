@@ -2,12 +2,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Check, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import AuthModal from './AuthModal';
+import OrderCheckoutModal from './OrderCheckoutModal';
+import { useAuth } from '../context/AuthContext';
 import useAPI from '../hooks/useAPI';
 import { plansAPI } from '../services/api';
 
-import imgBasic from '../assets/dietly/banana shake.jpg';
-import imgStandard from '../assets/dietly/masala matki sprouts.jpg';
-import imgPremium from '../assets/dietly/chocolate banana shake.jpg';
+import imgBasic from '../assets/dietly/plan-basic.webp';
+import imgStandard from '../assets/dietly/plan-standard.webp';
+import imgPremium from '../assets/dietly/plan-premium.webp';
 
 const PLAN_IMAGES = [imgBasic, imgStandard, imgPremium];
 
@@ -61,13 +64,13 @@ const fallbackPlans = [
   },
 ];
 
-function PlanCard({ plan, index, inView }) {
+function PlanCard({ plan, index, inView, onSelect }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: 0.1 * index }}
-      className="card overflow-hidden flex flex-col relative"
+      className="card overflow-hidden flex flex-col relative group"
       style={plan.popular
         ? { borderColor: 'rgba(176,234,32,0.50)', background: '#F4FBE8', boxShadow: '0 8px 32px rgba(176,234,32,0.16)' }
         : {}
@@ -76,8 +79,15 @@ function PlanCard({ plan, index, inView }) {
       {plan.popular && (
         <div className="absolute top-0 left-0 right-0 h-1 rounded-t-xl" style={{ background: '#b0ea20' }} />
       )}
-      <div className="h-32 overflow-hidden">
-        <img src={PLAN_IMAGES[index]} alt={plan.name} className="w-full h-full object-cover" loading="lazy" />
+      <div className="p-3 pb-0 sm:p-4 sm:pb-0">
+        <div className="aspect-[16/6] overflow-hidden rounded-[22px] shadow-[0_16px_34px_rgba(0,0,0,0.12)]">
+          <img
+            src={PLAN_IMAGES[index]}
+            alt={`${plan.name} plan meal preview`}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            loading="lazy"
+          />
+        </div>
       </div>
       <div className="p-6 flex flex-col flex-1">
         {plan.popular && (
@@ -108,6 +118,8 @@ function PlanCard({ plan, index, inView }) {
           ))}
         </ul>
         <button
+          type="button"
+          onClick={() => onSelect(plan)}
           className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300"
           style={plan.popular
             ? { background: '#b0ea20', color: '#033603', border: '1.5px solid #8cc418', boxShadow: '0 4px 14px rgba(176,234,32,0.30)' }
@@ -125,8 +137,12 @@ function PlanCard({ plan, index, inView }) {
 export default function PlansSlider() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const { data: apiPlans } = useAPI(plansAPI.getAll, fallbackPlans);
+  const { user } = useAuth();
   const [active, setActive] = useState(1);
   const [direction, setDirection] = useState(0);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [pendingPlan, setPendingPlan] = useState(null);
   const plans = apiPlans;
 
   const goTo = useCallback((idx) => {
@@ -149,6 +165,30 @@ export default function PlansSlider() {
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
   }, [inView, next]);
+
+  const handleSelectPlan = useCallback((selected) => {
+    if (!user) {
+      setPendingPlan(selected);
+      setAuthOpen(true);
+      return;
+    }
+
+    setSelectedPlan(selected);
+  }, [user]);
+
+  const handleAuthClose = useCallback(() => {
+    setAuthOpen(false);
+    if (!user) {
+      setPendingPlan(null);
+    }
+  }, [user]);
+
+  const handleAuthSuccess = useCallback(() => {
+    if (pendingPlan) {
+      setSelectedPlan(pendingPlan);
+      setPendingPlan(null);
+    }
+  }, [pendingPlan]);
 
   const plan = plans[active];
   if (!plan) return null;
@@ -179,7 +219,7 @@ export default function PlansSlider() {
 
         <div className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((p, i) => (
-            <PlanCard key={p.name} plan={p} index={i} inView={inView} />
+            <PlanCard key={p.name} plan={p} index={i} inView={inView} onSelect={handleSelectPlan} />
           ))}
         </div>
 
@@ -200,8 +240,10 @@ export default function PlansSlider() {
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div key={active} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.35, ease: 'easeInOut' }} className="absolute inset-0">
                 <div className="card h-full overflow-hidden flex flex-col" style={plan.popular ? { borderColor: 'rgba(176,234,32,0.50)', background: '#F4FBE8', boxShadow: '0 4px 24px rgba(176,234,32,0.12)' } : {}}>
-                  <div className="h-36 overflow-hidden">
-                    <img src={PLAN_IMAGES[active] || PLAN_IMAGES[0]} alt={plan.name} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="p-3 pb-0">
+                    <div className="aspect-[16/6] overflow-hidden rounded-[22px] shadow-[0_14px_28px_rgba(0,0,0,0.10)]">
+                      <img src={PLAN_IMAGES[active] || PLAN_IMAGES[0]} alt={`${plan.name} plan meal preview`} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     {plan.popular && (
@@ -227,7 +269,7 @@ export default function PlansSlider() {
                         </li>
                       ))}
                     </ul>
-                    <button className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300" style={plan.popular ? { background: '#b0ea20', color: '#033603', border: '1.5px solid #8cc418' } : { border: '1.5px solid rgba(0,0,0,0.14)', color: '#374151', background: 'transparent' }}>
+                    <button type="button" onClick={() => handleSelectPlan(plan)} className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300" style={plan.popular ? { background: '#b0ea20', color: '#033603', border: '1.5px solid #8cc418' } : { border: '1.5px solid rgba(0,0,0,0.14)', color: '#374151', background: 'transparent' }}>
                       Get Started <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -242,6 +284,9 @@ export default function PlansSlider() {
             ))}
           </div>
         </motion.div>
+
+        <AuthModal isOpen={authOpen} onClose={handleAuthClose} onSuccess={handleAuthSuccess} />
+        <OrderCheckoutModal isOpen={Boolean(selectedPlan)} onClose={() => setSelectedPlan(null)} plan={selectedPlan} />
 
         {/* WhatsApp CTA — single button below all plans */}
         <motion.div

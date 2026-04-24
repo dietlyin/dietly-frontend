@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Phone, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export default function AuthModal({ isOpen, onClose }) {
+export default function AuthModal({ isOpen, onClose, onSuccess }) {
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' });
   const [error, setError] = useState('');
@@ -21,6 +21,7 @@ export default function AuthModal({ isOpen, onClose }) {
     }
 
     if (result.success) {
+      onSuccess?.();
       onClose();
       setForm({ name: '', email: '', password: '', phone: '' });
     } else {

@@ -17,9 +17,9 @@ const pillars = [
   },
   {
     icon: Heart,
-    title: 'Built for Mumbai',
+    title: 'Built for Nagpur',
     description:
-      'We understand the pace of city life. Dietly was built for people who want to eat well without spending hours in the kitchen or compromising on flavour.',
+      'We understand the pace of city life. Dietly was built for people in Nagpur who want to eat well without spending hours in the kitchen or compromising on flavour.',
   },
   {
     icon: Users,
@@ -51,12 +51,12 @@ export default function AboutUs() {
               <span style={{ color: '#b0ea20', WebkitTextStroke: '1px #8cc418' }}>Focus</span>
             </h2>
             <p className="text-base sm:text-lg leading-relaxed mb-5" style={{ color: '#374151' }}>
-              Dietly started in 2022 with a single kitchen in Andheri and a belief that eating
+              Dietly started in 2022 with a single kitchen in Manewada and a belief that eating
               healthy shouldn't require hours of prep, expensive groceries, or a nutrition
               degree.
             </p>
             <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: '#374151' }}>
-              Today we serve thousands of meals daily across Mumbai — each one tracked for
+              Today we serve thousands of meals daily across Nagpur — each one tracked for
               macros, freshly made, and delivered before your workout ends.
             </p>
 
