@@ -8,18 +8,16 @@ export default function HeroImage({ src, alt }) {
       transition={{ duration: 0.7, delay: 0.3 }}
       className="relative mx-auto"
     >
-      {/* Glow accent */}
-      <div className="absolute -inset-3 sm:-inset-4 bg-brand-green/[0.08] rounded-3xl blur-2xl pointer-events-none" />
+      {/* Very subtle lime glow */}
+      <div className="absolute -inset-3 sm:-inset-4 rounded-3xl blur-2xl pointer-events-none" style={{ background: 'rgba(176,234,32,0.10)' }} />
 
-      <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] shadow-2xl shadow-black/40">
+      <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.10)' }}>
         <img
           src={src}
           alt={alt}
           className="w-full h-auto object-cover aspect-[4/3]"
           draggable={false}
         />
-        {/* Bottom fade for dark-theme blending */}
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/30 to-transparent pointer-events-none" />
       </div>
     </motion.div>
   );

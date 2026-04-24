@@ -52,10 +52,10 @@ export default function Features() {
           className="text-center mb-12 sm:mb-16"
         >
           <span className="badge mb-5 inline-flex">Why Dietly</span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4">
-            Built for <span className="text-brand-green">Results</span>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4" style={{ color: '#033603' }}>
+            Built for <span style={{ color: '#b0ea20', WebkitTextStroke: '1px #8cc418' }}>Results</span>
           </h2>
-          <p className="text-neutral-400 max-w-lg mx-auto text-sm sm:text-lg">
+          <p className="max-w-lg mx-auto text-sm sm:text-lg" style={{ color: '#374151' }}>
             Everything you need to eat clean and hit your goals — without the hassle.
           </p>
         </motion.div>
@@ -82,13 +82,13 @@ export default function Features() {
                 </div>
 
                 <div className="p-5 sm:p-7">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-brand-green/10 flex items-center justify-center mb-4 sm:mb-5">
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-brand-green" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-4 sm:mb-5" style={{ background: '#F4F3EE', border: '1px solid rgba(0,0,0,0.07)' }}>
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#033603' }} />
                   </div>
-                  <h3 className="font-display font-semibold text-base sm:text-lg mb-2 text-white">
+                  <h3 className="font-display font-semibold text-base sm:text-lg mb-2" style={{ color: '#033603' }}>
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-neutral-500 leading-relaxed">
+                  <p className="text-sm leading-relaxed" style={{ color: '#6B7280' }}>
                     {feature.description}
                   </p>
                 </div>

@@ -5,7 +5,8 @@ export default function ImageCard({ src, alt, className = '' }) {
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.3 }}
-      className={`overflow-hidden rounded-xl border border-white/[0.06] bg-neutral-900 ${className}`}
+      className={`overflow-hidden rounded-xl ${className}`}
+      style={{ border: '1px solid rgba(0,0,0,0.07)', background: '#FFFFFF' }}
     >
       <img
         src={src}

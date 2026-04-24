@@ -33,7 +33,7 @@ export default function HowItWorks() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="section-spacing overflow-hidden scroll-mt-20">
+    <section id="how-it-works" className="section-spacing section-alt overflow-hidden scroll-mt-20">
       <div className="section-container" ref={ref}>
         {/* Header */}
         <motion.div
@@ -43,10 +43,10 @@ export default function HowItWorks() {
           className="text-center mb-16"
         >
           <span className="badge mb-5 inline-flex">Simple Process</span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4">
-            How <span className="text-brand-green">Dietly</span> Works
+          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4" style={{ color: '#033603' }}>
+            How <span style={{ color: '#b0ea20', WebkitTextStroke: '1px #8cc418' }}>Dietly</span> Works
           </h2>
-          <p className="text-neutral-400 max-w-lg mx-auto text-base sm:text-lg">
+          <p className="max-w-lg mx-auto text-base sm:text-lg" style={{ color: '#374151' }}>
             Four simple steps to transform your nutrition.
           </p>
         </motion.div>
@@ -63,19 +63,19 @@ export default function HowItWorks() {
             >
               {/* Connector line (desktop) */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-white/[0.06]" />
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px pointer-events-none" style={{ background: 'rgba(0,0,0,0.08)' }} />
               )}
 
               <div className="card card-hover p-7 h-full">
                 {/* Step number */}
-                <span className="text-xs font-mono text-neutral-600 mb-4 block">{step.num}</span>
+                <span className="text-xs font-mono font-bold mb-4 block" style={{ color: 'rgba(176,234,32,0.50)', letterSpacing: '0.1em' }}>{step.num}</span>
 
-                <div className="w-12 h-12 rounded-xl bg-brand-green/10 flex items-center justify-center mb-5">
-                  <step.icon className="w-6 h-6 text-brand-green" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ background: 'rgba(176,234,32,0.10)', border: '1px solid rgba(176,234,32,0.20)' }}>
+                  <step.icon className="w-6 h-6" style={{ color: '#033603' }} />
                 </div>
 
-                <h3 className="font-display font-semibold text-lg mb-2 text-white">{step.title}</h3>
-                <p className="text-sm text-neutral-500 leading-relaxed">{step.desc}</p>
+                <h3 className="font-display font-semibold text-lg mb-2" style={{ color: '#033603' }}>{step.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#6B7280' }}>{step.desc}</p>
               </div>
             </motion.div>
           ))}

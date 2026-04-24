@@ -1,8 +1,58 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Clean Base ── */
+/*
+ * ── Dietly Design System — Balanced Premium Light Theme ──
+ *
+ * Philosophy: Lime (#b0ea20) is RARE = it has impact.
+ * 65% warm white/stone neutrals  → breathing room
+ * 18% dark green #033603         → brand authority (headings)
+ * 10% slate #374151              → readable body text
+ *  7% lime #b0ea20               → CTAs & single heading accent / section
+ *
+ * Backgrounds:
+ *   base    #FAFAF8  clean warm white — no green tint
+ *   alt     #F4F3EE  warm stone — section rhythm (every other section)
+ *   surface #FFFFFF  pure white cards
+ *   feature #F4FBE8  barely-there lime — ONLY "Popular" card / featured
+ *
+ * Text:
+ *   heading  #033603  dark green
+ *   body     #374151  neutral slate
+ *   muted    #6B7280  neutral grey
+ *
+ * Borders: rgba(0,0,0,0.07) neutral — nothing green-tinted
+ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  /* Backgrounds */
+  --bg-base:     #FAFAF8;
+  --bg-alt:      #F4F3EE;
+  --bg-cream:    #FEFCE8;   /* logo cream #ffe586 diluted to near-white */
+  --bg-surface:  #FFFFFF;
+  --bg-featured: #F4FBE8;
+
+  /* Borders — neutral, no green cast */
+  --border:      rgba(0, 0, 0, 0.07);
+  --border-sub:  rgba(0, 0, 0, 0.04);
+  --border-lime: rgba(176, 234, 32, 0.45);
+
+  /* Brand */
+  --dark:        #033603;
+  --lime:        #b0ea20;
+  --lime-light:  #C8F530;
+  --lime-dark:   #8cc418;
+  --cream:       #ffe586;
+
+  /* Text hierarchy */
+  --text-1:  #033603;  /* headings — dark green */
+  --text-2:  #374151;  /* body — neutral slate  */
+  --text-3:  #6B7280;  /* muted — neutral grey  */
+}
+
+/* ── Base Styles ── */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -11,88 +61,126 @@
   }
 
   body {
-    @apply bg-neutral-950 text-white font-sans;
+    background-color: var(--bg-base);
+    color: var(--text-2);
+    @apply font-sans;
   }
 
   ::selection {
-    background: rgba(34, 197, 94, 0.25);
-    color: #fff;
+    background: rgba(176, 234, 32, 0.30);
+    color: #033603;
   }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0a0a0a; }
-  ::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb:hover { background: #555; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track  { background: #F4F3EE; }
+  ::-webkit-scrollbar-thumb  { background: rgba(0,0,0,0.18); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.30); }
 }
 
-/* ── Clean Utilities ── */
+/* ── Component & Utility Styles ── */
 @layer utilities {
-  /* Card style — solid bg, subtle border */
-  .card {
-    background: #141414;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 1rem;
+
+  /* ── Layout ── */
+  .section-container {
+    @apply max-w-6xl mx-auto px-5 sm:px-8;
+  }
+  .section-spacing {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+  /* Alternate section background for visual rhythm */
+  .section-alt {
+    background-color: var(--bg-alt);
+  }
+  /* Warm cream section background — logo-derived warmth carrier */
+  .section-cream {
+    background: linear-gradient(180deg, var(--bg-cream) 0%, #FAFAF8 100%);
   }
 
+  /* ── Card ── */
+  /* Pure white card, neutral border, soft depth shadow */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.03);
+  }
   .card-hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
   .card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.09);
   }
 
-  /* Section container */
-  .section-container {
-    @apply max-w-6xl mx-auto px-5 sm:px-8;
-  }
-
-  .section-spacing {
-    @apply py-20 sm:py-24 lg:py-28;
-  }
-
-  /* Badge */
+  /* ── Badge ── */
+  /* Neutral white pill — lime used only for the small dot inside */
   .badge {
-    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase;
-    background: rgba(34, 197, 94, 0.1);
-    border: 1px solid rgba(34, 197, 94, 0.2);
-    color: #22c55e;
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #033603;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
 
-  /* Button primary */
+  /* ── Button Primary ── */
+  /* Lime — reserved for main CTAs only */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold text-sm rounded-xl transition-all duration-300;
-    background: #22c55e;
-    color: #0a0a0a;
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-300;
+    background: var(--lime);
+    color: #033603;
+    border: 1.5px solid var(--lime-dark);
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 8px rgba(176,234,32,0.25);
   }
   .btn-primary:hover {
-    background: #16a34a;
+    background: var(--lime-light);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+    box-shadow: 0 10px 28px rgba(176,234,32,0.38);
   }
   .btn-primary:active {
     transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(176,234,32,0.18);
   }
 
-  /* Button secondary */
+  /* ── Button Secondary ── */
+  /* Outline — dark green border, neutral hover */
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold text-sm rounded-xl transition-all duration-300;
     background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #033603;
+    border: 1.5px solid rgba(3,54,3,0.25);
   }
   .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(3,54,3,0.05);
+    border-color: rgba(3,54,3,0.50);
     transform: translateY(-2px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  /* ── Hero background graphic ── */
+  /* Warm cream haze lower-left (logo cream), faint lime upper-right — no dot grid */
+  .hero-bg {
+    background:
+      radial-gradient(ellipse 65% 55% at 5% 90%, rgba(255,229,134,0.18) 0%, transparent 100%),
+      radial-gradient(ellipse 50% 50% at 95% 5%,  rgba(176,234,32,0.07)  0%, transparent 100%),
+      linear-gradient(160deg, #FEFCE8 0%, #FAFAF8 55%);
+  }
+
+  /* ── CTA mesh gradient ── */
+  /* Warm cream base (logo-derived) + very soft lime + cream blobs */
+  .cta-mesh {
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 85%, rgba(255,229,134,0.22) 0%, transparent 100%),
+      radial-gradient(ellipse 55% 65% at 85% 15%, rgba(176,234,32,0.07)  0%, transparent 100%),
+      radial-gradient(ellipse 45% 45% at 50% 55%, rgba(255,229,134,0.12) 0%, transparent 100%),
+      linear-gradient(135deg, #FEFCE8 0%, #FFF9E6 100%);
   }
 }
 
-/* ── Reduced motion preference ── */
+/* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

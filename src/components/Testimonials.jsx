@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+﻿import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
@@ -39,7 +39,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="section-spacing overflow-hidden scroll-mt-20">
+    <section id="testimonials" className="section-spacing section-cream overflow-hidden scroll-mt-20">
       <div className="section-container" ref={ref}>
         {/* Header */}
         <motion.div
@@ -49,10 +49,10 @@ export default function Testimonials() {
           className="text-center mb-14"
         >
           <span className="badge mb-5 inline-flex">Testimonials</span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4">
-            Loved by <span className="text-brand-green">Thousands</span>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4" style={{ color: '#033603' }}>
+            Loved by <span style={{ color: '#b0ea20', WebkitTextStroke: '1px #8cc418' }}>Thousands</span>
           </h2>
-          <p className="text-neutral-400 max-w-lg mx-auto text-base sm:text-lg">
+          <p className="max-w-lg mx-auto text-base sm:text-lg" style={{ color: '#374151' }}>
             Real stories from real people crushing their fitness goals.
           </p>
         </motion.div>
@@ -66,7 +66,7 @@ export default function Testimonials() {
         >
           <div className="card p-8 sm:p-12 text-center relative overflow-hidden">
             {/* Decorative quote */}
-            <Quote className="absolute top-6 left-6 w-16 h-16 text-white/[0.03]" />
+            <Quote className="absolute top-6 left-6 w-16 h-16" style={{ color: 'rgba(3,54,3,0.05)' }} />
 
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -86,13 +86,13 @@ export default function Testimonials() {
                 </div>
 
                 {/* Quote text */}
-                <p className="text-base sm:text-lg text-neutral-300 leading-relaxed mb-8 max-w-xl mx-auto">
+                <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto" style={{ color: '#374151' }}>
                   &ldquo;{t.text}&rdquo;
                 </p>
 
                 {/* Author */}
-                <div className="font-display font-semibold text-white">{t.name}</div>
-                <div className="text-sm text-neutral-500 mt-1">{t.role}</div>
+                <div className="font-display font-semibold" style={{ color: '#033603' }}>{t.name}</div>
+                <div className="text-sm mt-1" style={{ color: '#6B7280' }}>{t.role}</div>
               </motion.div>
             </AnimatePresence>
 
@@ -100,7 +100,10 @@ export default function Testimonials() {
             <div className="flex items-center justify-center gap-4 mt-10">
               <button
                 onClick={() => go(-1)}
-                className="p-2 rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 transition-all"
+                className="p-2 rounded-lg transition-all"
+                style={{ border: '1.5px solid rgba(0,0,0,0.12)', color: '#6B7280' }}
+                onMouseEnter={e => { e.currentTarget.style.color='#033603'; e.currentTarget.style.borderColor='rgba(0,0,0,0.28)'; e.currentTarget.style.background='rgba(0,0,0,0.04)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color='#6B7280'; e.currentTarget.style.borderColor='rgba(0,0,0,0.12)'; e.currentTarget.style.background='transparent'; }}
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -111,9 +114,8 @@ export default function Testimonials() {
                   <button
                     key={i}
                     onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === current ? 'bg-brand-green w-6' : 'bg-white/15 hover:bg-white/25'
-                    }`}
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{ width: i === current ? '1.5rem' : '0.5rem', background: i === current ? '#b0ea20' : 'rgba(0,0,0,0.14)' }}
                     aria-label={`Go to testimonial ${i + 1}`}
                   />
                 ))}
@@ -121,7 +123,10 @@ export default function Testimonials() {
 
               <button
                 onClick={() => go(1)}
-                className="p-2 rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 transition-all"
+                className="p-2 rounded-lg transition-all"
+                style={{ border: '1.5px solid rgba(3,54,3,0.18)', color: 'rgba(3,54,3,0.45)' }}
+                onMouseEnter={e => { e.currentTarget.style.color='#033603'; e.currentTarget.style.borderColor='rgba(3,54,3,0.40)'; e.currentTarget.style.background='rgba(3,54,3,0.05)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color='rgba(3,54,3,0.45)'; e.currentTarget.style.borderColor='rgba(3,54,3,0.18)'; e.currentTarget.style.background='transparent'; }}
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="w-4 h-4" />

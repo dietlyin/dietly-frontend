@@ -9,10 +9,15 @@ export default {
       },
       colors: {
         brand: {
-          green: '#22c55e',
-          'green-light': '#4ade80',
-          'green-dark': '#16a34a',
+          green:        '#b0ea20',
+          'green-light':'#C8F530',
+          'green-dark': '#8cc418',
         },
+        dark:    '#033603',
+        cream:   '#ffe586',
+        // Neutral surface tokens
+        stone:   '#F4F3EE',
+        feature: '#F4FBE8',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',

@@ -6,11 +6,11 @@ import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 
 const navLinks = [
-  { label: 'Features', href: '#features' },
   { label: 'Menu', href: '#menu' },
   { label: 'Plans', href: '#plans' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Why Dietly', href: '#features' },
+  { label: 'About', href: '#about' },
 ];
 
 export default function Navbar() {
@@ -35,14 +35,15 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-neutral-950/95 backdrop-blur-sm border-b border-white/[0.06]'
+            ? 'backdrop-blur-md border-b'
             : 'bg-transparent'
         }`}
+        style={scrolled ? { backgroundColor: 'rgba(250,250,248,0.97)', borderColor: 'rgba(0,0,0,0.08)' } : {}}
       >
         <div className="section-container">
           <div className="flex items-center justify-between h-16">
             <a href="#home" className="flex items-center">
-              <img src={logo} alt="Dietly" className="h-8 w-auto object-contain brightness-0 invert" />
+              <img src={logo} alt="Dietly" className="h-8 w-auto object-contain" />
             </a>
 
             <div className="hidden lg:flex items-center gap-1">
@@ -50,7 +51,10 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-sm text-neutral-400 hover:text-white transition-colors"
+                  className="px-4 py-2 text-sm font-semibold transition-colors"
+                  style={{ color: '#374151' }}
+                  onMouseEnter={e => e.currentTarget.style.color='#033603'}
+                  onMouseLeave={e => e.currentTarget.style.color='#374151'}
                 >
                   {link.label}
                 </a>
@@ -60,13 +64,16 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               {user ? (
                 <div className="hidden sm:flex items-center gap-3">
-                  <span className="flex items-center gap-1.5 text-sm text-neutral-400">
+                  <span className="flex items-center gap-1.5 text-sm font-medium" style={{ color: 'rgba(3,54,3,0.65)' }}>
                     <UserCircle className="w-4 h-4 text-brand-green" />
                     {user.name?.split(' ')[0]}
                   </span>
                   <button
                     onClick={logout}
-                    className="flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg border border-white/10 text-neutral-400 hover:text-white transition-all"
+                    className="flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg border font-medium transition-all"
+                    style={{ borderColor: 'rgba(0,0,0,0.12)', color: '#374151' }}
+                    onMouseEnter={e => { e.currentTarget.style.color='#033603'; e.currentTarget.style.background='rgba(0,0,0,0.04)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.color='#374151'; e.currentTarget.style.background='transparent'; }}
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     Logout
@@ -84,7 +91,10 @@ export default function Navbar() {
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
+                className="lg:hidden p-2 rounded-lg transition-colors"
+                style={{ background: 'transparent' }}
+                onMouseEnter={e => e.currentTarget.style.background='rgba(0,0,0,0.05)'}
+                onMouseLeave={e => e.currentTarget.style.background='transparent'}
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -101,7 +111,8 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 lg:hidden bg-neutral-950"
+            className="fixed inset-0 z-40 lg:hidden"
+            style={{ backgroundColor: '#FAFAF8' }}
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 px-6">
               {navLinks.map((link) => (
@@ -109,7 +120,9 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-2xl font-display font-semibold text-neutral-300 hover:text-brand-green transition-colors"
+                  className="text-2xl font-display font-semibold transition-colors" style={{ color: '#374151' }}
+                  onMouseEnter={e => e.currentTarget.style.color='#033603'}
+                  onMouseLeave={e => e.currentTarget.style.color='#374151'}
                 >
                   {link.label}
                 </a>
@@ -117,13 +130,16 @@ export default function Navbar() {
 
               {user ? (
                 <div className="flex flex-col items-center gap-3 mt-4">
-                  <span className="flex items-center gap-2 text-sm text-neutral-400">
+                  <span className="flex items-center gap-2 text-sm" style={{ color: 'rgba(3,54,3,0.60)' }}>
                     <UserCircle className="w-5 h-5 text-brand-green" />
                     {user.name?.split(' ')[0]}
                   </span>
                   <button
                     onClick={() => { logout(); setMobileOpen(false); }}
-                    className="flex items-center gap-2 px-6 py-3 text-sm rounded-xl border border-white/10 text-neutral-400 hover:text-white transition-all"
+                    className="flex items-center gap-2 px-6 py-3 text-sm rounded-xl border font-medium transition-all"
+                    style={{ border: '1.5px solid rgba(0,0,0,0.12)', color: '#374151' }}
+                    onMouseEnter={e => { e.currentTarget.style.color='#033603'; e.currentTarget.style.background='rgba(0,0,0,0.04)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.color='#374151'; e.currentTarget.style.background='transparent'; }}
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
