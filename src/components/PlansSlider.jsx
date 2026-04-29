@@ -14,8 +14,8 @@ import imgPremium from '../assets/dietly/plan-premium.webp';
 
 const PLAN_IMAGES = [imgBasic, imgStandard, imgPremium];
 
-const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919000000000';
-const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I want to subscribe to a Dietly diet plan')}`;
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919011154118';
+const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I want to order from Dietly Nagpur')}`;
 
 const fallbackPlans = [
   {

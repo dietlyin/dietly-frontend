@@ -14,6 +14,9 @@ import { ordersAPI } from '../services/api';
 
 const PHONE_PATTERN = /^[+]?[\d\s-]{10,15}$/;
 const PINCODE_PATTERN = /^\d{6}$/;
+const DELIVERY_HUB = { latitude: 21.117164, longitude: 79.098231 };
+const FREE_DELIVERY_RADIUS_KM = 2;
+const EXTRA_DELIVERY_CHARGE_PER_KM = 10;
 
 const INITIAL_LOCATION = {
   latitude: null,
@@ -26,6 +29,7 @@ function buildInitialForm(user, plan) {
   return {
     customerName: user?.name || '',
     phone: user?.phone || '',
+    locationName: '',
     addressText: '',
     city: '',
     state: '',
@@ -60,6 +64,47 @@ function readGeolocationError(error) {
   }
 }
 
+function toRadians(value) {
+  return (value * Math.PI) / 180;
+}
+
+function calculateDistanceKm(origin, destination) {
+  const earthRadiusKm = 6371;
+  const latDelta = toRadians(destination.latitude - origin.latitude);
+  const lngDelta = toRadians(destination.longitude - origin.longitude);
+
+  const a = Math.sin(latDelta / 2) ** 2
+    + Math.cos(toRadians(origin.latitude))
+    * Math.cos(toRadians(destination.latitude))
+    * Math.sin(lngDelta / 2) ** 2;
+
+  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function calculateDeliveryPricing(location, planAmount) {
+  if (location.latitude == null || location.longitude == null) {
+    return {
+      distanceKm: null,
+      deliveryCharge: 0,
+      totalAmount: planAmount,
+      isFreeDelivery: true,
+    };
+  }
+
+  const distanceKm = Number(calculateDistanceKm(DELIVERY_HUB, location).toFixed(2));
+  const extraDistanceKm = Math.max(distanceKm - FREE_DELIVERY_RADIUS_KM, 0);
+  const deliveryCharge = extraDistanceKm > 0
+    ? Math.ceil(extraDistanceKm) * EXTRA_DELIVERY_CHARGE_PER_KM
+    : 0;
+
+  return {
+    distanceKm,
+    deliveryCharge,
+    totalAmount: planAmount + deliveryCharge,
+    isFreeDelivery: deliveryCharge === 0,
+  };
+}
+
 export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
   const { user } = useAuth();
   const [form, setForm] = useState(() => buildInitialForm(user, plan));
@@ -83,6 +128,11 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
 
     return (Number.isFinite(numericPrice) ? numericPrice : 0) * Number(form.quantity || 1);
   }, [plan, form.quantity]);
+
+  const deliveryPricing = useMemo(
+    () => calculateDeliveryPricing(location, totalPrice),
+    [location, totalPrice]
+  );
 
   const mapQuery = location.latitude != null && location.longitude != null
     ? `${location.latitude},${location.longitude}`
@@ -152,6 +202,11 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
       return;
     }
 
+    if (!form.locationName.trim()) {
+      setError('Location name is required so the rider can identify your area quickly.');
+      return;
+    }
+
     if (!form.addressText.trim()) {
       setError('Address is required for delivery.');
       return;
@@ -174,6 +229,7 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
         planId: plan._id,
         customerName: form.customerName.trim(),
         phone: form.phone.trim(),
+        deliveryLocationName: form.locationName.trim(),
         addressText: form.addressText.trim(),
         latitude: location.latitude,
         longitude: location.longitude,
@@ -195,7 +251,7 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
         quantity: Number(form.quantity || 1),
         deliverySlot: form.deliverySlot,
         notes: form.notes.trim(),
-        price: totalPrice,
+        price: deliveryPricing.totalAmount,
       };
 
       const { data } = await ordersAPI.create(payload);
@@ -296,6 +352,11 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                     </div>
 
                     <div>
+                      <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Location Name / Area</label>
+                      <input value={form.locationName} onChange={setField('locationName')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} placeholder="Pratap Nagar, Wardhaman Nagar, Sadar" />
+                    </div>
+
+                    <div>
                       <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Delivery Address</label>
                       <textarea value={form.addressText} onChange={setField('addressText')} rows={4} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none resize-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} placeholder="House / flat, street, landmark" />
                     </div>
@@ -329,7 +390,7 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                         <input type="number" min="1" max="30" value={form.quantity} onChange={setField('quantity')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Total Price</label>
+                        <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Plan Price</label>
                         <div className="w-full rounded-2xl px-4 py-3.5 text-sm font-semibold" style={{ background: '#F4FBE8', color: '#033603', border: '1.5px solid rgba(176,234,32,0.35)' }}>
                           {formatCurrency(totalPrice)}
                         </div>
@@ -372,6 +433,11 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                           <p className="text-xs mt-2" style={{ color: '#6B7280' }}>
                             Lat: {location.latitude} | Lng: {location.longitude}
                           </p>
+                          <p className="text-xs mt-2" style={{ color: deliveryPricing.isFreeDelivery ? '#476107' : '#7C5A00' }}>
+                            {deliveryPricing.distanceKm != null
+                              ? `Distance from kitchen: ${deliveryPricing.distanceKm} km • ${deliveryPricing.isFreeDelivery ? 'Free delivery' : `Delivery charge ${formatCurrency(deliveryPricing.deliveryCharge)}`}`
+                              : 'Distance will appear after GPS capture'}
+                          </p>
                         </div>
                       ) : (
                         <div className="mt-4 rounded-2xl px-4 py-3 text-sm" style={{ background: 'rgba(255,229,134,0.35)', color: '#7C5A00', border: '1px solid rgba(255,229,134,0.85)' }}>
@@ -396,6 +462,44 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                     </div>
 
                     <div className="rounded-[24px] p-5" style={{ background: '#FAFAF8', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      <h3 className="text-sm font-bold mb-4" style={{ color: '#033603' }}>Delivery Summary</h3>
+                      <div className="space-y-3">
+                        <div className="rounded-2xl px-4 py-3.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.06)' }}>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>Customer</p>
+                          <p className="text-sm font-semibold mt-1" style={{ color: '#033603' }}>{form.customerName || 'Customer name pending'}</p>
+                          <p className="text-sm mt-1" style={{ color: '#6B7280' }}>{form.phone || 'Phone number pending'}</p>
+                        </div>
+                        <div className="rounded-2xl px-4 py-3.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.06)' }}>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>Delivery</p>
+                          <p className="text-sm font-semibold mt-1" style={{ color: '#033603' }}>{form.locationName || 'Location name pending'}</p>
+                          <p className="text-sm mt-1 leading-6" style={{ color: '#6B7280' }}>
+                            {[form.addressText, form.city, form.state, form.pincode].filter(Boolean).join(', ') || 'Address details pending'}
+                          </p>
+                          <p className="text-xs mt-2" style={{ color: '#6B7280' }}>{form.deliverySlot}</p>
+                        </div>
+                        <div className="rounded-2xl px-4 py-3.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.06)' }}>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>Pricing</p>
+                          <div className="mt-2 space-y-1.5 text-sm" style={{ color: '#374151' }}>
+                            <div className="flex items-center justify-between gap-3">
+                              <span>Subscription</span>
+                              <span className="font-semibold" style={{ color: '#033603' }}>{formatCurrency(totalPrice)}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3">
+                              <span>{deliveryPricing.isFreeDelivery ? `Delivery within ${FREE_DELIVERY_RADIUS_KM} km` : 'Delivery charge'}</span>
+                              <span className="font-semibold" style={{ color: deliveryPricing.isFreeDelivery ? '#476107' : '#7C5A00' }}>
+                                {deliveryPricing.isFreeDelivery ? 'Free' : formatCurrency(deliveryPricing.deliveryCharge)}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3 pt-2" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                              <span>Total</span>
+                              <span className="font-semibold" style={{ color: '#033603' }}>{formatCurrency(deliveryPricing.totalAmount)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[24px] p-5" style={{ background: '#FAFAF8', border: '1px solid rgba(0,0,0,0.06)' }}>
                       <div className="flex items-start gap-3">
                         <ShieldAlert className="w-5 h-5 mt-0.5" style={{ color: '#7C5A00' }} />
                         <div>
@@ -414,7 +518,7 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                       style={{ background: '#033603', color: '#FEFCE8', border: '1.5px solid rgba(3,54,3,0.92)', opacity: submitting || location.loading ? 0.75 : 1 }}
                     >
                       {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                      {submitting ? 'Placing Order...' : 'Place Order'}
+                      {submitting ? 'Placing Order...' : `Place Order • ${formatCurrency(deliveryPricing.totalAmount)}`}
                     </button>
                   </div>
                 </form>

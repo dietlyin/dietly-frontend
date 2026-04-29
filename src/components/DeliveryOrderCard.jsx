@@ -67,6 +67,15 @@ const getMapsData = (order) => {
 
 const getCallHref = (phone) => `tel:${String(phone || '').replace(/[^\d+]/g, '')}`;
 
+const getDeliveryPricing = (order) => ({
+  planAmount: order.pricing?.planAmount ?? Math.max((order.amount || 0) - (order.pricing?.deliveryCharge || 0), 0),
+  deliveryCharge: order.pricing?.deliveryCharge ?? 0,
+  totalAmount: order.pricing?.totalAmount ?? order.amount ?? 0,
+  distanceKm: order.pricing?.distanceKm,
+  freeDeliveryRadiusKm: order.pricing?.freeDeliveryRadiusKm ?? 2,
+  isFreeDelivery: order.pricing?.isFreeDelivery ?? !(order.pricing?.deliveryCharge > 0),
+});
+
 export default function DeliveryOrderCard({ order, updating, onAdvanceStatus }) {
   const statusStyle = STATUS_STYLES[order.status] || STATUS_STYLES.pending;
   const paymentStyle = PAYMENT_STYLES[order.paymentStatus] || PAYMENT_STYLES.pending;
@@ -77,6 +86,7 @@ export default function DeliveryOrderCard({ order, updating, onAdvanceStatus }) 
   const canStartDelivery = ['pending', 'confirmed', 'preparing'].includes(order.status);
   const canMarkDelivered = order.status === 'out-for-delivery';
   const isDelivered = order.status === 'delivered';
+  const deliveryPricing = getDeliveryPricing(order);
   const coordinateText = mapsData.hasCoordinates
     ? `${order.latitude ?? order.deliveryLocation?.lat}, ${order.longitude ?? order.deliveryLocation?.lng}`
     : 'Location not available';
@@ -125,13 +135,21 @@ export default function DeliveryOrderCard({ order, updating, onAdvanceStatus }) 
               <Clock3 className="w-4 h-4" style={{ color: '#8cc418' }} />
               <h3 className="text-sm font-bold" style={{ color: '#033603' }}>Delivery Info</h3>
             </div>
-            <p className="text-sm leading-6" style={{ color: '#374151' }}>{addressText}</p>
-            <p className="text-xs mt-3" style={{ color: mapsData.hasCoordinates ? '#6B7280' : '#991B1B' }}>
-              Coordinates: {coordinateText}
-            </p>
-            <p className="text-sm mt-3" style={{ color: '#6B7280' }}>
-              Instructions: {order.orderDetails?.specialInstructions || order.notes || 'No special instructions'}
-            </p>
+            <div className="space-y-2.5 text-sm">
+              <div className="rounded-xl px-3 py-2.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)' }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>Location Name</p>
+                <p className="mt-1 font-medium" style={{ color: '#033603' }}>{order.deliveryLocationName || 'Not provided'}</p>
+              </div>
+              <div className="rounded-xl px-3 py-2.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)' }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>Address</p>
+                <p className="mt-1 leading-6" style={{ color: '#374151' }}>{addressText}</p>
+              </div>
+              <div className="rounded-xl px-3 py-2.5" style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.05)' }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#8cc418' }}>GPS & Notes</p>
+                <p className="mt-1" style={{ color: mapsData.hasCoordinates ? '#6B7280' : '#991B1B' }}>Coordinates: {coordinateText}</p>
+                <p className="mt-2" style={{ color: '#6B7280' }}>Instructions: {order.orderDetails?.specialInstructions || order.notes || 'No special instructions'}</p>
+              </div>
+            </div>
             {!mapsData.hasCoordinates ? (
               <div className="mt-3 rounded-2xl px-3 py-2.5 text-xs" style={{ background: 'rgba(255,229,134,0.35)', color: '#7C5A00', border: '1px solid rgba(255,229,134,0.85)' }}>
                 Location not available. Delivery can still use the text address, but GPS precision is missing for this order.
@@ -144,7 +162,23 @@ export default function DeliveryOrderCard({ order, updating, onAdvanceStatus }) 
               <IndianRupee className="w-4 h-4" style={{ color: '#8cc418' }} />
               <h3 className="text-sm font-bold" style={{ color: '#033603' }}>Pricing</h3>
             </div>
-            <p className="text-2xl font-display font-bold" style={{ color: '#033603' }}>{formatCurrency(order.amount)}</p>
+            <div className="space-y-2 text-sm" style={{ color: '#374151' }}>
+              <div className="flex items-center justify-between gap-3">
+                <span>Subscription</span>
+                <span className="font-semibold" style={{ color: '#033603' }}>{formatCurrency(deliveryPricing.planAmount)}</span>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <span>{deliveryPricing.isFreeDelivery ? `Delivery within ${deliveryPricing.freeDeliveryRadiusKm} km` : 'Delivery charge'}</span>
+                <span className="font-semibold" style={{ color: deliveryPricing.isFreeDelivery ? '#476107' : '#7C5A00' }}>
+                  {deliveryPricing.isFreeDelivery ? 'Free' : formatCurrency(deliveryPricing.deliveryCharge)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <span>Distance from kitchen</span>
+                <span className="font-semibold" style={{ color: '#033603' }}>{deliveryPricing.distanceKm != null ? `${deliveryPricing.distanceKm} km` : 'Not calculated'}</span>
+              </div>
+            </div>
+            <p className="text-2xl font-display font-bold mt-4" style={{ color: '#033603' }}>{formatCurrency(deliveryPricing.totalAmount)}</p>
             <p className="text-sm mt-1" style={{ color: '#6B7280' }}>Collected status: {formatStatus(order.paymentStatus)}</p>
           </div>
         </div>
