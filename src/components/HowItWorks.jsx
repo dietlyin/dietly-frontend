@@ -1,28 +1,36 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ClipboardList, Truck, Utensils, Dumbbell } from 'lucide-react';
+import stepPlan from '../assets/dietly/how-step-plan.svg';
+import stepCook from '../assets/dietly/how-step-cook.svg';
+import stepDelivery from '../assets/dietly/how-step-delivery.svg';
+import stepGoal from '../assets/dietly/how-step-goal.svg';
 
 const steps = [
   {
     icon: ClipboardList,
+    image: stepPlan,
     num: '01',
     title: 'Choose Your Plan',
     desc: 'Pick the plan that matches your fitness goals — basic nutrition to fully custom.',
   },
   {
     icon: Utensils,
+    image: stepCook,
     num: '02',
     title: 'We Craft Your Meals',
     desc: 'Chefs prepare macro-balanced meals with fresh, locally sourced ingredients daily.',
   },
   {
     icon: Truck,
+    image: stepDelivery,
     num: '03',
     title: 'Delivered Fresh',
     desc: 'Meals arrive hot at your door on time — every single day, rain or shine.',
   },
   {
     icon: Dumbbell,
+    image: stepGoal,
     num: '04',
     title: 'Crush Your Goals',
     desc: 'Stay fueled, hit your macros, and watch your body transform week after week.',
@@ -69,6 +77,15 @@ export default function HowItWorks() {
               <div className="card card-hover p-7 h-full">
                 {/* Step number */}
                 <span className="text-xs font-mono font-bold mb-4 block" style={{ color: 'rgba(176,234,32,0.50)', letterSpacing: '0.1em' }}>{step.num}</span>
+
+                <div className="relative mb-5 overflow-hidden rounded-xl border" style={{ borderColor: 'rgba(176,234,32,0.25)' }}>
+                  <img
+                    src={step.image}
+                    alt={`${step.title} illustration`}
+                    className="w-full h-28 object-cover"
+                    loading="lazy"
+                  />
+                </div>
 
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ background: 'rgba(176,234,32,0.10)', border: '1px solid rgba(176,234,32,0.20)' }}>
                   <step.icon className="w-6 h-6" style={{ color: '#033603' }} />

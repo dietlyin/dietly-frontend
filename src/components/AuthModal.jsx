@@ -95,7 +95,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
               {mode === 'register' && (
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(3,54,3,0.45)' }} />
-                  <input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={set('phone')} className={`${inputClass} ${inputFocusClass}`} style={inputStyle} />
+                  <input type="tel" placeholder="Phone Number" value={form.phone} onChange={set('phone')} required className={`${inputClass} ${inputFocusClass}`} style={inputStyle} />
                 </div>
               )}
               <button

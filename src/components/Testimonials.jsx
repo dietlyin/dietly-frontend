@@ -17,7 +17,8 @@ export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const { data: testimonials } = useAPI(testimonialsAPI.getAll, fallbackTestimonials);
+  const { data: apiTestimonials } = useAPI(testimonialsAPI.getAll, fallbackTestimonials);
+  const testimonials = (apiTestimonials && apiTestimonials.length > 0) ? apiTestimonials : fallbackTestimonials;
 
   const go = useCallback((dir) => {
     setDirection(dir);

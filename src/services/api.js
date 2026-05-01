@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-gules-zeta-65.vercel.app/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.dietly.in/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -8,6 +8,11 @@ const api = axios.create({
 });
 
 const deliveryClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+const adminClient = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -22,6 +27,14 @@ api.interceptors.request.use((config) => {
 
 deliveryClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('dietly_delivery_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+adminClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('dietly_admin_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -45,6 +58,17 @@ deliveryClient.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('dietly_delivery_token');
       localStorage.removeItem('dietly_delivery_agent');
+    }
+    return Promise.reject(err);
+  }
+);
+
+adminClient.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('dietly_admin_token');
+      localStorage.removeItem('dietly_admin_user');
     }
     return Promise.reject(err);
   }
@@ -106,4 +130,12 @@ export const deliveryAPI = {
   getMe: () => deliveryClient.get('/delivery/me'),
   getOrders: (params) => deliveryClient.get('/delivery/orders', { params }),
   updateOrderStatus: (data) => deliveryClient.patch('/delivery/order-status', data),
+};
+
+export const adminAPI = {
+  login: (data) => adminClient.post('/auth/login', data),
+  getMe: () => adminClient.get('/auth/me'),
+  getDashboard: () => adminClient.get('/users/admin/dashboard'),
+  getUsers: (params) => adminClient.get('/users', { params }),
+  getOrders: (params) => adminClient.get('/orders/admin/all', { params }),
 };

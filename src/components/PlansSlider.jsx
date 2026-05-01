@@ -143,7 +143,7 @@ export default function PlansSlider() {
   const [authOpen, setAuthOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [pendingPlan, setPendingPlan] = useState(null);
-  const plans = apiPlans;
+  const plans = (apiPlans && apiPlans.length > 0) ? apiPlans : fallbackPlans;
 
   const goTo = useCallback((idx) => {
     setDirection(idx > active ? 1 : -1);
