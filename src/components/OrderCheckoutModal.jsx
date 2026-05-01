@@ -31,9 +31,9 @@ function buildInitialForm(user, plan) {
     phone: user?.phone || '',
     locationName: '',
     addressText: '',
-    city: '',
-    state: '',
-    pincode: '',
+    city: 'Nagpur',
+    state: 'Maharashtra',
+    pincode: '440001',
     deliverySlot: plan?.name === 'Basic' ? 'Breakfast • 8 AM to 10 AM' : 'Customizable',
     quantity: 1,
     notes: '',
@@ -212,10 +212,6 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
       return;
     }
 
-    if (!form.city.trim() || !form.state.trim() || !PINCODE_PATTERN.test(form.pincode.trim())) {
-      setError('City, state, and a valid 6-digit pincode are required.');
-      return;
-    }
 
     if (location.latitude == null || location.longitude == null) {
       setError('Please capture your delivery location before placing the order.');
@@ -363,21 +359,6 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
 
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div>
-                        <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>City</label>
-                        <input value={form.city} onChange={setField('city')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>State</label>
-                        <input value={form.state} onChange={setField('state')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Pincode</label>
-                        <input value={form.pincode} onChange={setField('pincode')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }} maxLength={6} />
-                      </div>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-3">
-                      <div>
                         <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Delivery Slot</label>
                         {plan?.name === 'Basic' ? (
                           <select value={form.deliverySlot} onChange={setField('deliverySlot')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }}>
@@ -386,7 +367,7 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                           </select>
                         ) : (
                           <div className="w-full rounded-2xl px-4 py-3.5 text-sm" style={{ background: '#F4FBE8', color: '#476107', border: '1.5px solid rgba(176,234,32,0.40)' }}>
-                            Customizable — our team will confirm your slot
+                            Customizable
                           </div>
                         )}
                       </div>
