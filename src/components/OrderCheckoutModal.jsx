@@ -34,7 +34,7 @@ function buildInitialForm(user, plan) {
     city: '',
     state: '',
     pincode: '',
-    deliverySlot: 'Lunch • 12 PM to 3 PM',
+    deliverySlot: plan?.name === 'Basic' ? 'Breakfast • 8 AM to 10 AM' : 'Customizable',
     quantity: 1,
     notes: '',
     planName: plan?.name || '',
@@ -379,11 +379,16 @@ export default function OrderCheckoutModal({ isOpen, onClose, plan }) {
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div>
                         <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Delivery Slot</label>
-                        <select value={form.deliverySlot} onChange={setField('deliverySlot')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }}>
-                          <option>Breakfast • 7 AM to 10 AM</option>
-                          <option>Lunch • 12 PM to 3 PM</option>
-                          <option>Dinner • 7 PM to 10 PM</option>
-                        </select>
+                        {plan?.name === 'Basic' ? (
+                          <select value={form.deliverySlot} onChange={setField('deliverySlot')} className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none" style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(0,0,0,0.10)' }}>
+                            <option>Breakfast • 8 AM to 10 AM</option>
+                            <option>Dinner • 7 PM to 10 PM</option>
+                          </select>
+                        ) : (
+                          <div className="w-full rounded-2xl px-4 py-3.5 text-sm" style={{ background: '#F4FBE8', color: '#476107', border: '1.5px solid rgba(176,234,32,0.40)' }}>
+                            Customizable — our team will confirm your slot
+                          </div>
+                        )}
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>Quantity</label>
