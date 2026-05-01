@@ -30,7 +30,7 @@ import masalaMilk from '../assets/dietly-menu/Masala Milk.png';
 import hotMilkWithDryFruits from '../assets/dietly-menu/Hot Milk with Dry Fruits.png';
 import hotMilkWithFruits from '../assets/dietly-menu/Hot Milk with Fruits (Custard).png';
 
-const SWIGGY_URL = import.meta.env.VITE_SWIGGY_URL || 'https://www.swiggy.com/';
+const ZOMATO_URL = import.meta.env.VITE_ZOMATO_URL || 'https://zomato.onelink.me/xqzv/yrvrksby';
 
 const CATEGORIES = [
   {
@@ -177,14 +177,14 @@ export default function Gallery() {
             Freshly prepared meals for Dietly Nagpur. Pick a category to explore the variety.
           </p>
           <p className="mt-4 text-sm sm:text-base" style={{ color: '#476107' }}>
-            Want instant ordering?{' '}
+            Hey, I recommend ordering from Dietly on Zomato{' '}
             <a
-              href={SWIGGY_URL}
+              href={ZOMATO_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold underline underline-offset-4"
             >
-              Order on Swiggy
+              Order on Zomato
             </a>
           </p>
         </motion.div>
