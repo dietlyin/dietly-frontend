@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Private/auth routes should not appear in search results
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/dashboard
+Disallow: /delivery-dashboard
+
+Sitemap: https://dietly.in/sitemap.xml

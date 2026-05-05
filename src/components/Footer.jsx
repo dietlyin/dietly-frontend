@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import logo from '../assets/dietly-logo.png';
 
 const footerLinks = {
@@ -7,9 +7,8 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Instagram, href: 'https://www.instagram.com/dietly.in?igsh=NTg0dzFyaHEwbW1n', label: 'Instagram' },
+  { icon: Facebook, href: 'https://www.facebook.com/dietlynagpur/#', label: 'Facebook' },
 ];
 
 export default function Footer() {
@@ -77,6 +76,8 @@ export default function Footer() {
               <a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={s.label}
                 className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
                 style={{ border: '1px solid rgba(176,234,32,0.22)' }}

@@ -14,52 +14,52 @@ import imgPremium from '../assets/dietly/plan-premium.webp';
 
 const PLAN_IMAGES = [imgBasic, imgStandard, imgPremium];
 
-const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919000000000';
-const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I want to subscribe to a Dietly diet plan')}`;
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919011154118';
+const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I want to order from Dietly Nagpur')}`;
 
 const fallbackPlans = [
   {
     name: 'Basic',
     price: 1299,
-    period: '/month',
-    description: 'Get started with clean eating.',
+    period: '',
+    description: 'One meal daily support for your fitness goals.',
     popular: false,
     features: [
-      '1 meal per day',
-      'Fixed delivery time',
-      'Standard diet plan',
-      'Weekly menu rotation',
-      'WhatsApp support',
+      'One Meal Daily Delivery',
+      'Fixed Time Slot (Morning/Evening)',
+      'Common Diet Plan for Weight Loss/Gain',
+      'Exclusive Gym Community Invite',
     ],
   },
   {
     name: 'Standard',
-    price: 1500,
-    period: '/month',
-    description: 'Most popular. Tailored to your goals.',
+    price: 1499,
+    period: '',
+    description: 'Balanced plan with personalization and flexibility.',
     popular: true,
     features: [
-      'Everything in Basic',
-      'Custom delivery time',
-      'Personalized diet plan',
-      'Daily food variation',
-      '2 free extra deliveries/mo',
-      'Priority support',
+      'One Meal Daily',
+      'Customizable Time Slot',
+      'Personal Diet Plan',
+      '1 Time Meal Shuffle Allowed',
+      'Monthly 2 Free Deliveries for Individual Orders (outside subscription)',
+      'Exclusive Gym Community Invite',
     ],
   },
   {
     name: 'Premium',
     price: 2999,
-    period: '/month',
-    description: 'The ultimate nutrition experience.',
+    period: 'onwards',
+    description: 'Advanced nutrition coverage for full-day fitness support.',
     popular: false,
     features: [
-      'Everything in Standard',
-      'Full day meals (B/L/D)',
-      'Fully customized diet',
-      'Protein & supplement support',
-      'On-demand food ordering',
-      'Dedicated nutritionist',
+      'Daily Meals Delivery as per Diet Plan',
+      'Fully Customized Diet Plan Based on Goals',
+      'Customizable Time Slot',
+      '2 Free Deliveries for Individual Random Orders',
+      'Fitness Assistance & Guidance',
+      'Full-Day Meal Coverage (Breakfast to Dinner)',
+      'Exclusive Gym Community Invite',
     ],
   },
 ];
@@ -100,11 +100,11 @@ function PlanCard({ plan, index, inView, onSelect }) {
         <h3 className="font-display font-bold text-xl mb-1" style={{ color: '#033603' }}>{plan.name}</h3>
         <p className="text-sm mb-4" style={{ color: '#6B7280' }}>{plan.description}</p>
         <div className="flex items-baseline gap-1 mb-5">
-          <span className="font-semibold" style={{ color: '#6B7280' }}>Rs.</span>
+          <span className="font-semibold" style={{ color: '#6B7280' }}>₹</span>
           <span className="font-display font-bold text-4xl tracking-tight" style={{ color: '#033603' }}>
             {typeof plan.price === 'number' ? plan.price.toLocaleString('en-IN') : plan.price}
           </span>
-          <span style={{ color: '#6B7280' }}>{plan.period}</span>
+          {plan.period ? <span style={{ color: '#6B7280' }}>{plan.period}</span> : null}
         </div>
         <div className="h-px mb-4" style={{ background: 'rgba(0,0,0,0.07)' }} />
         <ul className="space-y-2.5 mb-6 flex-1">
@@ -143,7 +143,7 @@ export default function PlansSlider() {
   const [authOpen, setAuthOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [pendingPlan, setPendingPlan] = useState(null);
-  const plans = apiPlans;
+  const plans = (apiPlans && apiPlans.length > 0) ? apiPlans : fallbackPlans;
 
   const goTo = useCallback((idx) => {
     setDirection(idx > active ? 1 : -1);
@@ -254,9 +254,9 @@ export default function PlansSlider() {
                     <h3 className="font-display font-bold text-xl mb-1" style={{ color: '#033603' }}>{plan.name}</h3>
                     <p className="text-sm mb-4" style={{ color: '#6B7280' }}>{plan.description}</p>
                     <div className="flex items-baseline gap-1 mb-5">
-                      <span className="font-semibold" style={{ color: '#6B7280' }}>Rs.</span>
+                      <span className="font-semibold" style={{ color: '#6B7280' }}>₹</span>
                       <span className="font-display font-bold text-4xl tracking-tight" style={{ color: '#033603' }}>{typeof plan.price === 'number' ? plan.price.toLocaleString('en-IN') : plan.price}</span>
-                      <span style={{ color: '#6B7280' }}>{plan.period}</span>
+                      {plan.period ? <span style={{ color: '#6B7280' }}>{plan.period}</span> : null}
                     </div>
                     <div className="h-px mb-4" style={{ background: 'rgba(0,0,0,0.07)' }} />
                     <ul className="space-y-2.5 mb-6 flex-1">
@@ -287,6 +287,16 @@ export default function PlansSlider() {
 
         <AuthModal isOpen={authOpen} onClose={handleAuthClose} onSuccess={handleAuthSuccess} />
         <OrderCheckoutModal isOpen={Boolean(selectedPlan)} onClose={() => setSelectedPlan(null)} plan={selectedPlan} />
+
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.28 }}
+          className="text-center text-xs sm:text-sm mt-8 sm:mt-10 px-3"
+          style={{ color: '#6B7280' }}
+        >
+          Prices are onwards and may vary depending on meal selection and customization.
+        </motion.p>
 
         {/* WhatsApp CTA — single button below all plans */}
         <motion.div

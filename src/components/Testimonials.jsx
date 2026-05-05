@@ -6,18 +6,19 @@ import useAPI from '../hooks/useAPI';
 import { testimonialsAPI } from '../services/api';
 
 const fallbackTestimonials = [
-  { name: 'Arjun Mehta', role: 'Fitness Enthusiast', text: 'Dietly completely changed how I eat. Lost 8kg in 3 months while building lean muscle. The food is genuinely delicious.', rating: 5 },
-  { name: 'Priya Sharma', role: 'Yoga Instructor', text: 'As a yoga instructor, nutrition is everything. Dietly meals are clean, balanced, and show up on time every single day.', rating: 5 },
-  { name: 'Rohit Kapoor', role: 'Bodybuilder', text: 'The Premium plan is excellent. Full day meals that hit my macros perfectly. My coach couldn\'t believe the progress.', rating: 5 },
-  { name: 'Sneha Iyer', role: 'Marathon Runner', text: 'I used to spend hours meal prepping. Now I just open the box and eat. My performance has improved significantly.', rating: 5 },
-  { name: 'Vikram Singh', role: 'CrossFit Athlete', text: 'The variety is what keeps me hooked. Different meals every day, all hitting 40g+ protein. Like having a personal chef.', rating: 5 },
+  { name: 'Prasheek Thulkar', role: 'Gym Trainer & Athlete', text: 'The Premium plan is excellent—full-day meals that perfectly match my macros. Even my coach was surprised by the progress. Simple, effective, and worth it.', rating: 5 },
+  { name: 'Sankalp Meshram', role: 'CrossFit Athlete', text: 'The variety is what keeps me hooked. Different meals every day, all hitting 40g+ protein. Like having a personal chef.', rating: 5 },
+  { name: 'Aatish Sontakke (Shanky)', role: 'Owner, Growth Fitness', text: "As a gym owner, I've tried many diet plans, but Dietly stands out. I lost 8 kg in 3 months while building lean muscle—and the food is genuinely delicious. Easy to follow and highly effective.", rating: 5 },
+  { name: 'Poonam Jain', role: 'Yoga Instructor', text: 'As a yoga instructor, nutrition is everything. Dietly meals are clean, balanced, and show up on time every single day.', rating: 5 },
+  { name: 'Sneha Shambharkar', role: 'Marathon Runner', text: 'I used to spend hours meal prepping. Now I just open the box and eat. My performance has improved significantly.', rating: 5 },
 ];
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const { data: testimonials } = useAPI(testimonialsAPI.getAll, fallbackTestimonials);
+  const { data: apiTestimonials } = useAPI(testimonialsAPI.getAll, fallbackTestimonials);
+  const testimonials = (apiTestimonials && apiTestimonials.length > 0) ? apiTestimonials : fallbackTestimonials;
 
   const go = useCallback((dir) => {
     setDirection(dir);

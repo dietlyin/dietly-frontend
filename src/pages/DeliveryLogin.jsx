@@ -9,7 +9,8 @@ const isValidIdentifier = (value) => {
   const trimmed = value.trim();
   if (!trimmed) return false;
   if (trimmed.includes('@')) return /^\S+@\S+\.\S+$/.test(trimmed);
-  return /^\+?[\d\s-]{10,15}$/.test(trimmed);
+  if (/^\+?[\d\s-]{10,15}$/.test(trimmed)) return true;
+  return /^[a-zA-Z0-9._-]{3,30}$/.test(trimmed);
 };
 
 export default function DeliveryLogin() {
@@ -36,7 +37,7 @@ export default function DeliveryLogin() {
     event.preventDefault();
 
     if (!isValidIdentifier(form.identifier)) {
-      setError('Enter a valid delivery phone number or email.');
+      setError('Enter a valid delivery username, phone number, or email.');
       return;
     }
 
@@ -81,20 +82,20 @@ export default function DeliveryLogin() {
             Delivery Partner Login
           </h1>
           <p className="text-sm text-center mb-7 leading-6" style={{ color: '#6B7280' }}>
-            Sign in with your assigned phone number or email to access deliveries, customer details, and navigation links.
+            Sign in with your assigned username, phone number, or email to access deliveries, customer details, and navigation links.
           </p>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-4">
             <div>
               <label className="block text-xs font-semibold mb-2" style={{ color: '#374151' }}>
-                Phone Number or Email
+                Username, Phone Number, or Email
               </label>
               <input
                 type="text"
                 name="identifier"
                 value={form.identifier}
                 onChange={handleChange}
-                placeholder="9876543210 or rider@dietly.in"
+                placeholder="delivery.rohit or 9876543210"
                 autoComplete="username"
                 className="w-full rounded-2xl px-4 py-3.5 text-sm outline-none"
                 style={{ background: '#FAFAF8', color: '#033603', border: '1.5px solid rgba(3,54,3,0.12)' }}
