@@ -1,25 +1,30 @@
 {
-  "name": "dietly",
+  "name": "dietly-frontend",
+  "private": true,
   "version": "1.0.0",
-  "description": "A full-stack fitness meal subscription platform built with **React + Vite** (frontend) and **Express + MongoDB** (backend). Dark-themed, mobile-responsive, and production-ready.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@aws-sdk/client-acm": "^3.1038.0",
-    "@aws-sdk/client-cloudfront": "^3.1038.0",
-    "@aws-sdk/client-cost-explorer": "^3.1039.0",
-    "@aws-sdk/client-lightsail": "^3.600.0",
-    "@aws-sdk/client-s3": "^3.600.0",
-    "@aws-sdk/client-sts": "^3.600.0",
-    "canvas": "^3.2.3",
-    "mime-types": "^3.0.2",
+    "axios": "^1.14.0",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.13.0",
+    "react-router-dom": "^6.30.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
     "sharp": "^0.34.5",
-    "ssh2": "^1.16.0"
+    "tailwindcss": "^3.4.16",
+    "vite": "^6.0.3"
   }
 }

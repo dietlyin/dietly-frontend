@@ -1,209 +1,151 @@
-# Dietly — Premium Fitness Meal Subscription
+# Dietly — Fitness Meal Subscription Website
 
-A full-stack fitness meal subscription platform built with **React + Vite** (frontend) and **Express + MongoDB** (backend). Dark-themed, mobile-responsive, and production-ready.
+> Always read this README before making any changes.
+
+## Overview
+
+Dietly is a clean, professional fitness meal subscription landing page built with React + Vite + Tailwind CSS. It connects to a Node.js/Express backend API for plans, testimonials, and authentication.
+
+**Live URL:** https://frontend-eight-peach-93.vercel.app  
+**Backend API:** https://backend-gules-zeta-65.vercel.app/api
+
+---
+
+## Folder Structure
+
+```
+src/
+├── components/
+│   ├── Navbar.jsx         # Fixed top nav, mobile menu, auth CTA
+│   ├── Hero.jsx           # Main hero section with headline + stats
+│   ├── Features.jsx       # 4-card feature grid
+│   ├── PlansSlider.jsx    # Auto-rotating plan card carousel
+│   ├── HowItWorks.jsx     # 4-step process section
+│   ├── Testimonials.jsx   # Customer testimonial carousel
+│   ├── CTA.jsx            # Final call-to-action banner
+│   ├── Footer.jsx         # Footer with links, contact, socials
+│   └── AuthModal.jsx      # Login/Register modal
+│
+├── pages/
+│   └── Home.jsx           # Assembles all sections in order
+│
+├── context/
+│   └── AuthContext.jsx     # Auth state (login, register, logout)
+│
+├── hooks/
+│   └── useAPI.js           # Generic data-fetching hook with fallbacks
+│
+├── services/
+│   └── api.js              # Axios instance + API endpoint functions
+│
+├── assets/
+│   └── dietly-logo.png     # Brand logo
+│
+├── App.jsx                 # Root component (AuthProvider + Home)
+├── main.jsx                # React DOM entry point
+└── index.css               # Global styles (Tailwind + utilities)
+```
+
+---
+
+## Design Principles
+
+1. **Clean UI only** — No glassmorphism, no aurora backgrounds, no grain overlays
+2. **No blur misuse** — Only use backdrop-blur on the navbar when scrolled (subtle)
+3. **No glitch effects** — No particles, neon borders, shimmer animations, or grain noise
+4. **Solid backgrounds** — Cards use solid `#141414` bg with subtle borders
+5. **Readable text** — High contrast white on dark, with neutral-400/500 for secondary
+6. **Minimal animations** — Simple fade-in and slide-up via Framer Motion. No 3D transforms
+7. **Consistent spacing** — `section-spacing` utility for all sections (py-20 to py-28)
+8. **Proper typography** — Inter for body, Space Grotesk for headings. Nothing else
+
+---
+
+## Colors
+
+| Token          | Value     | Usage                    |
+|---------------|-----------|--------------------------|
+| neutral-950    | `#0a0a0a` | Page background          |
+| `#141414`      | —         | Card backgrounds         |
+| white          | `#ffffff` | Primary text             |
+| neutral-400    | —         | Secondary text           |
+| neutral-500    | —         | Muted text               |
+| brand-green    | `#22c55e` | Primary accent (CTA, highlights) |
+| brand-green-light | `#4ade80` | Hover state for green  |
+
+---
+
+## Component Breakdown
+
+### Navbar
+Fixed position. Transparent → solid bg on scroll. Desktop links + mobile fullscreen menu. Auth button opens AuthModal.
+
+### Hero
+Left-aligned headline "Fuel Your Fitness Journey" with subtext, 2 CTA buttons (primary + secondary), trust stats row at bottom.
+
+### Features
+4-column grid with icon + title + description cards. Solid card backgrounds with green icon accents.
+
+### PlansSlider
+Single card auto-rotating every 4 seconds through Basic → Standard → Premium. Dot indicators. Arrow navigation. Smooth fade transition.
+
+### HowItWorks
+4-step numbered grid with icons. Clean cards. Desktop connector lines between steps.
+
+### Testimonials
+Auto-rotating testimonial carousel. Star ratings, quote text, author info. Simple dot + arrow navigation.
+
+### CTA
+Full-width card with centered headline, subtext, and primary CTA button. Subtle green accent glow.
+
+### Footer
+5-column grid: brand info + 3 link columns. Contact details. Social icons. Copyright bar.
+
+---
+
+## How to Run
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+Environment variable for API:
+```
+VITE_API_URL=https://backend-gules-zeta-65.vercel.app/api
+```
+
+---
+
+## Rules for Future AI Edits
+
+1. **Always read this README first** before making any changes
+2. **Never add** glassmorphism, grain overlays, aurora backgrounds, particles, or neon borders
+3. **Never add** heavy blur effects on sections or cards
+4. **Keep animations minimal** — fade-in and slide-up only. No 3D transforms, no parallax
+5. **Use solid backgrounds** for cards (#141414) — no gradient backgrounds or backdrop-filter
+6. **Maintain the color palette** — neutral-950 bg, brand-green accent, white text
+7. **Test mobile** — every change must look good on 375px width
+8. **Keep the component structure** — one component per section, assembled in Home.jsx
+9. **Don't add new fonts** — Inter + Space Grotesk only
+10. **Don't over-engineer** — simple, clean, readable code
 
 ---
 
 ## Tech Stack
 
-| Layer    | Technology                                          |
-| -------- | --------------------------------------------------- |
-| Frontend | React 18, Vite 6, Tailwind CSS 3, Framer Motion 11 |
-| Backend  | Express 5, MongoDB (Mongoose 9), JWT Auth           |
-| Deploy   | Vercel (backend `vercel.json` included)             |
-
----
-
-## Project Structure
-
-```
-Dietly/
-├── frontend/                   React SPA
-│   ├── index.html              Entry HTML
-│   ├── vite.config.js          Vite config (dev port 3000)
-│   ├── tailwind.config.js      Tailwind theme (brand-green, fonts)
-│   └── src/
-│       ├── main.jsx            React root mount
-│       ├── App.jsx             App shell + AuthProvider
-│       ├── index.css           Global styles + utility classes
-│       ├── assets/
-│       │   ├── dietly-logo.png Logo
-│       │   └── dietly/         Food images (17 photos)
-│       ├── components/
-│       │   ├── Navbar.jsx      Fixed nav + mobile fullscreen menu
-│       │   ├── Hero.jsx        Hero section (text + image layout)
-│       │   ├── HeroImage.jsx   Reusable hero image with glow effect
-│       │   ├── Features.jsx    4-card feature grid with food images
-│       │   ├── Gallery.jsx     9-image responsive grid (Our Menu)
-│       │   ├── ImageCard.jsx   Reusable image card with hover zoom
-│       │   ├── PlansSlider.jsx Animated plan carousel with images
-│       │   ├── HowItWorks.jsx  4-step process cards
-│       │   ├── Testimonials.jsx Rotating testimonial carousel
-│       │   ├── CTA.jsx         Call-to-action banner
-│       │   ├── Footer.jsx      Footer with links + contact
-│       │   └── AuthModal.jsx   Login/Register modal
-│       ├── context/
-│       │   └── AuthContext.jsx  JWT auth state management
-│       ├── hooks/
-│       │   └── useAPI.js       Generic data-fetching hook
-│       ├── pages/
-│       │   └── Home.jsx        Main page composing all sections
-│       └── services/
-│           └── api.js          Axios client + API endpoints
-│
-├── backend/                    REST API
-│   ├── api/index.js            Vercel serverless entry
-│   ├── vercel.json             Vercel deployment config
-│   └── src/
-│       ├── server.js           Express server + middleware
-│       ├── config/db.js        MongoDB connection
-│       ├── controllers/        Route handlers
-│       ├── middleware/          Auth + validation middleware
-│       ├── models/             Mongoose schemas
-│       ├── routes/             Express routers
-│       └── seeders/seed.js     Database seeder
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- MongoDB (local or Atlas connection string)
-
-### 1. Clone & Install
-
-```bash
-git clone <repo-url> Dietly
-cd Dietly
-
-# Install frontend
-cd frontend
-npm install
-
-# Install backend
-cd ../backend
-npm install
-```
-
-### 2. Environment Variables
-
-Create `backend/.env`:
-
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/dietly
-JWT_SECRET=your_jwt_secret_here
-```
-
-Optionally create `frontend/.env`:
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-### 3. Seed Database (Optional)
-
-```bash
-cd backend
-npm run seed
-```
-
-### 4. Run Development Servers
-
-**Backend:**
-```bash
-cd backend
-npm run dev          # Runs on http://localhost:5000
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm run dev          # Runs on http://localhost:3000
-```
-
-Open **http://localhost:3000** in your browser.
-
-### 5. Production Build
-
-```bash
-cd frontend
-npm run build        # Output in frontend/dist/
-```
-
----
-
-## Sections & Features
-
-| Section       | Description                                      |
-| ------------- | ------------------------------------------------ |
-| **Navbar**    | Fixed, transparent → blur on scroll, mobile menu |
-| **Hero**      | Two-column layout: text + food image             |
-| **Features**  | 4 cards with food photos, icons, descriptions    |
-| **Gallery**   | 9-image responsive grid (1/2/3 columns)          |
-| **Plans**     | Animated carousel with plan images & pricing     |
-| **How It Works** | 4-step process with connector lines           |
-| **Testimonials** | Auto-rotating review carousel                 |
-| **CTA**       | Full-width call-to-action banner                 |
-| **Footer**    | Links, contact info, social icons                |
-| **Auth**      | Login/Register modal with JWT                    |
-
----
-
-## Responsive Breakpoints
-
-| Breakpoint | Width   | Layout Behavior                             |
-| ---------- | ------- | ------------------------------------------- |
-| Mobile     | < 640px | Single column, stacked sections, touch-friendly |
-| Tablet     | 640–1024px | 2-column grids, side-by-side buttons      |
-| Desktop    | > 1024px | Full layout, 3–4 column grids, side hero image |
-
----
-
-## API Endpoints
-
-| Method | Endpoint              | Description              |
-| ------ | --------------------- | ------------------------ |
-| POST   | `/api/auth/register`  | Register new user        |
-| POST   | `/api/auth/login`     | Login                    |
-| GET    | `/api/auth/me`        | Get current user         |
-| GET    | `/api/plans`          | List all plans           |
-| GET    | `/api/meals`          | List meals               |
-| GET    | `/api/testimonials`   | List testimonials        |
-| GET    | `/api/faqs`           | List FAQs                |
-| GET    | `/api/stats`          | Site statistics          |
-| POST   | `/api/orders`         | Create order             |
-| POST   | `/api/contact`        | Submit contact form      |
-| POST   | `/api/gym-partnership/apply` | Gym partnership app |
-
----
-
-## Food Images
-
-All meal photos are in `frontend/src/assets/dietly/`:
-
-- Paneer Bhurji, Paneer Paratha
-- Masala Chana/Matki/Moong Sprouts, Boiled variants
-- Banana Shake, Chocolate Banana Shake
-- Malai Dahi, Kaccha Chivda, Masala Mashed Potato
-
-Images use `object-cover`, fixed aspect ratios, `rounded-xl`, and lazy loading throughout.
-
----
-
-## Design System
-
-- **Colors:** `brand-green` (#22c55e), neutral-950 dark background
-- **Fonts:** Inter (body), Space Grotesk (headings)
-- **Cards:** `#141414` bg, 1px white/6% border, 1rem radius
-- **Animations:** Framer Motion scroll-triggered + hover effects
-- **Accessibility:** `prefers-reduced-motion` support, ARIA labels
-
----
-
-## License
-
-ISC
+- **React 18** + **Vite 6**
+- **Tailwind CSS 3**
+- **Framer Motion** (minimal usage)
+- **Lucide React** (icons)
+- **Axios** (API calls)
+- **Vercel** (deployment)
