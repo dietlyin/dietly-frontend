@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Flame, IndianRupee, ArrowLeft } from 'lucide-react';
+import { Flame, IndianRupee, ArrowLeft, MessageCircle } from 'lucide-react';
 
 import alooParathaButter from '../assets/dietly-menu/Aloo Paratha butter.png';
 import alooParatha from '../assets/dietly-menu/Aloo Paratha.png';
@@ -55,6 +55,7 @@ import tossedPaneerWithSalad from '../assets/dietly-menu/Tossed Paneer with Sala
 import vegSalad from '../assets/dietly-menu/Veg Salad.png';
 
 const ZOMATO_URL = import.meta.env.VITE_ZOMATO_URL || 'https://zomato.onelink.me/xqzv/yrvrksby';
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '919011154118';
 
 const DEFAULT_CATEGORY_IMAGES = {
   Chilla: besanChilla,
@@ -234,6 +235,15 @@ function MealCard({ item, tag, index }) {
           </div>
         </div>
       </div>
+      <a
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hi, I want to order ${item.label}`)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-600 hover:bg-green-700 text-white text-xs font-semibold transition"
+        style={{ display: 'inline-flex' }}
+      >
+        <MessageCircle className="w-4 h-4" /> Order on WhatsApp
+      </a>
     </motion.div>
   );
 }
